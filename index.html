@@ -3,64 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet Educativa</title>
+    <title>Intranet Álgebra - San Marcos</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #2563eb; --green: #10b981; --bg: #f8fafc; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; text-align: center; }
+        :root { --blue: #2563eb; --green: #10b981; --bg: #f1f5f9; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
+        .container { max-width: 1100px; margin: auto; }
         .hidden { display: none; }
+        .login-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 100px auto; max-width: 350px; text-align: center; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .panel { background: white; padding: 15px; border-radius: 15px; height: 75vh; overflow-y: auto; border: 1px solid #e2e8f0; }
+        .panel h3 { position: sticky; top: 0; background: white; margin: 0; padding: 10px 0; border-bottom: 2px solid var(--bg); z-index: 5; font-size: 1.1rem; }
         
-        /* Login */
-        .login-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 100px; }
-        input { width: 80%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; }
-        
-        /* Dashboard */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .panel { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .panel h3 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
-
-        /* Botones Rápidos */
-        .btn-folder {
+        .btn-file {
             display: flex; align-items: center; justify-content: space-between;
-            background: #fff; border: 1px solid #e2e8f0; padding: 12px 15px;
-            margin-bottom: 8px; border-radius: 10px; text-decoration: none; color: #333;
-            font-size: 0.9rem; transition: 0.2s;
+            background: #fff; border: 1px solid #edf2f7; padding: 12px;
+            margin: 8px 0; border-radius: 10px; text-decoration: none; color: #4a5568;
+            font-size: 0.85rem; transition: 0.2s;
         }
-        .btn-folder:hover { background: #f1f5f9; border-color: var(--blue); transform: translateX(5px); }
-        .btn-folder i { font-style: normal; font-weight: bold; color: var(--blue); }
-        
-        .btn-main { background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; }
-        .logout { color: #ef4444; text-decoration: none; font-size: 0.8rem; cursor: pointer; }
+        .btn-file:hover { background: #f8fafc; border-color: var(--blue); transform: scale(1.02); color: var(--blue); }
+        .btn-primary { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: 600; }
+        .logout { color: #ef4444; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .sem-tag { background: #ebf8ff; color: #3182ce; padding: 2px 8px; border-radius: 5px; font-weight: bold; margin-right: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="section-login" class="login-box">
-        <h2>🔐 Acceso Educativo</h2>
-        <input type="password" id="pass" placeholder="Ingresa tu código...">
-        <button class="btn-main" onclick="validar()">Entrar</button>
+        <h2 style="margin-top:0">Acceso Álgebra</h2>
+        <input type="password" id="pass" placeholder="Código de acceso">
+        <button class="btn-primary" onclick="validar()">Ingresar</button>
     </div>
 
     <div id="section-panel" class="hidden">
         <div class="header">
-            <h2 id="bienvenida"></h2>
+            <h3 id="user-title" style="margin:0; color: #2d3748;"></h3>
             <span class="logout" onclick="location.reload()">Cerrar Sesión</span>
         </div>
 
-        <div class="grid-container">
+        <div class="grid">
             <div class="panel">
-                <h3>📁 Diapositivas</h3>
+                <h3>📖 Diapositivas (Teoría)</h3>
                 <div id="list-diapo"></div>
             </div>
-
             <div class="panel">
-                <h3>📝 Dirigidas</h3>
+                <h3>📝 Prácticas (Imprimir)</h3>
                 <div id="list-dir"></div>
             </div>
-
             <div id="panel-mama" class="panel hidden">
                 <h3>✅ Resoluciones</h3>
                 <div id="list-res"></div>
@@ -70,54 +62,46 @@
 </div>
 
 <script>
-    const materias = [
-        "ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", 
-        "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", 
-        "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"
-    ];
-
-    function crearBotones(materia, tipo) {
-        // Ajustamos los nombres para las URLs de GitHub
-        let folderName = materia + "%202024%201-40";
-        if(materia === "RAZ. MATEMATICO") folderName = "RAZ.%20MATEMATICO%202024%201-40";
-        if(materia === "RAZ. VERBAL") folderName = "RAZ.%20VERBAL%202024%201-40";
-        
-        let subFolder = "";
-        if(tipo === 'diapo') subFolder = "DIAPOSITIVAS";
-        if(tipo === 'dir') subFolder = "DIRIGIDAS";
-        if(tipo === 'res') subFolder = "RESOLUCIONES";
-
-        return `<a href="https://github.com/24135004/educativo/tree/main/${folderName}/${subFolder}" target="_blank" class="btn-folder">
-                    <span>${materia}</span>
-                    <i>→</i>
-                </a>`;
-    }
-
     function validar() {
         const p = document.getElementById('pass').value;
-        const panel = document.getElementById('section-panel');
-        const login = document.getElementById('section-login');
-        
         if(p === "MAMA2026" || p === "ESTUDIANTE01") {
-            login.classList.add('hidden');
-            panel.classList.remove('hidden');
+            document.getElementById('section-login').classList.add('hidden');
+            document.getElementById('section-panel').classList.remove('hidden');
+            document.getElementById('user-title').innerText = p === "MAMA2026" ? "Panel Administrador" : "Material de Estudio";
+            generarContenido(p === "MAMA2026");
+        } else { alert("Código incorrecto"); }
+    }
+
+    function generarContenido(esMama) {
+        const base = "https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40";
+        
+        for (let i = 1; i <= 40; i++) {
+            let n = i < 10 ? "0" + i : i; // Formato 01, 02...
             
-            document.getElementById('bienvenida').innerText = p === "MAMA2026" ? "Panel Mamá" : "Mis Materiales";
-            
-            // Llenar listas automáticamente sin archivos JSON externos para que no falle
-            materias.forEach(m => {
-                document.getElementById('list-diapo').innerHTML += crearBotones(m, 'diapo');
-                document.getElementById('list-dir').innerHTML += crearBotones(m, 'dir');
-                if(p === "MAMA2026") {
-                    document.getElementById('panel-mama').classList.remove('hidden');
-                    document.getElementById('list-res').innerHTML += crearBotones(m, 'res');
-                }
-            });
-        } else {
-            alert("Código incorrecto");
+            // 1. DIAPOSITIVAS: ASM-TS00[i]-AL.pdf
+            document.getElementById('list-diapo').innerHTML += `
+                <a href="${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf" target="_blank" class="btn-file">
+                    <span><span class="sem-tag">S${n}</span> Diapositiva Teórica</span> <span>→</span>
+                </a>`;
+
+            // 2. PRÁCTICAS: AL_ASM_Dir_Sem[n].pdf
+            document.getElementById('list-dir').innerHTML += `
+                <a href="${base}/DIRIGIDAS/AL_ASM_Dir_Sem${n}.pdf" target="_blank" class="btn-file">
+                    <span><span class="sem-tag">S${n}</span> Práctica Dirigida</span> <span>→</span>
+                </a>`;
+
+            // 3. RESOLUCIONES (SÓLO MAMÁ)
+            if(esMama) {
+                document.getElementById('panel-mama').classList.remove('hidden');
+                // Para la semana 1 usamos el nombre largo que mandaste, para el resto un estándar
+                let resName = (i === 1) ? "2024-03-08%2014-06-36.pdf" : `Res_Sem${n}.pdf`;
+                document.getElementById('list-res').innerHTML += `
+                    <a href="${base}/RESOLUCIONES/${resName}" target="_blank" class="btn-file">
+                        <span><span class="sem-tag">S${n}</span> Solucionario</span> <span>→</span>
+                    </a>`;
+            }
         }
     }
 </script>
-
 </body>
 </html>
