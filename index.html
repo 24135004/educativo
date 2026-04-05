@@ -6,7 +6,7 @@
     <title>Intranet Educativa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #2563eb; --bg: #f1f5f9; --text: #1e293b; }
+        :root { --blue: #2563eb; --green: #10b981; --bg: #f1f5f9; --text: #1e293b; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: var(--text); }
         .container { max-width: 1100px; margin: auto; text-align: center; }
         .hidden { display: none !important; }
@@ -16,22 +16,27 @@
         input { width: 100%; padding: 12px; margin: 15px 0; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
         .btn-blue { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 600; cursor: pointer; }
 
-        /* Grid de Cursos */
+        /* Cursos */
         .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
         .grid-cursos { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
         .card-curso { background: white; padding: 25px 10px; border-radius: 15px; cursor: pointer; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; border: 2px solid transparent; font-size: 0.85rem; }
-        .card-curso:hover { border-color: var(--blue); transform: translateY(-3px); color: var(--blue); }
+        .card-curso:hover { border-color: var(--blue); color: var(--blue); }
 
-        /* Modal Materiales */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 10px; }
+        /* Modal */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 10px; }
         .modal-content { background: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; text-align: left; }
-        .semana-bloque { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .semana-titulo { font-weight: 600; color: var(--blue); margin-bottom: 10px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        
+        /* Semanas */
+        .semana-bloque { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 15px; position: relative; }
+        .bloqueado { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+        .semana-titulo { font-weight: 600; color: var(--blue); display: block; margin-bottom: 10px; }
+        
         .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-file { flex: 1; min-width: 140px; background: white; border: 1px solid #cbd5e1; padding: 8px; border-radius: 8px; text-decoration: none; color: #334155; font-size: 0.8rem; text-align: center; transition: 0.2s; }
-        .btn-file:hover { background: var(--blue); color: white; border-color: var(--blue); }
-        .btn-res { border-color: #10b981; color: #10b981; }
-        .btn-res:hover { background: #10b981; color: white; }
+        .btn-file { flex: 1; min-width: 140px; background: white; border: 1px solid #cbd5e1; padding: 8px; border-radius: 8px; text-decoration: none; color: #334155; font-size: 0.8rem; text-align: center; }
+        .btn-file:hover { background: var(--blue); color: white; }
+        
+        .btn-unlock { background: #10b981; color: white; border: none; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; margin-bottom: 10px; }
+        .badge-locked { position: absolute; right: 15px; top: 15px; background: #ef4444; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.7rem; }
     </style>
 </head>
 <body>
@@ -39,14 +44,13 @@
 <div class="container">
     <div id="section-login" class="login-card">
         <h2 style="margin:0; color: var(--blue);">Intranet</h2>
-        <p style="font-size:0.9rem; color:#64748b;">Ingresa tu código de acceso</p>
         <input type="password" id="pass-input" placeholder="Contraseña">
         <button class="btn-blue" onclick="validar()">Entrar</button>
     </div>
 
     <div id="section-intranet" class="hidden">
         <div class="header">
-            <h2 id="user-txt" style="margin:0; font-size: 1.2rem;"></h2>
+            <h2 id="user-txt" style="margin:0; font-size: 1.1rem;"></h2>
             <button onclick="location.reload()" style="border:none; background:none; color:#ef4444; cursor:pointer; font-weight:600;">Salir</button>
         </div>
         <div class="grid-cursos" id="lista-cursos"></div>
@@ -57,7 +61,7 @@
     <div class="modal-content">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h2 id="modal-titulo" style="margin:0; color:var(--blue);"></h2>
-            <button onclick="cerrarModal()" style="font-size:2rem; cursor:pointer; border:none; background:none; line-height:1;">&times;</button>
+            <button onclick="cerrarModal()" style="font-size:2rem; cursor:pointer; border:none; background:none;">&times;</button>
         </div>
         <div id="contenedor-semanas"></div>
     </div>
@@ -65,17 +69,18 @@
 
 <script>
     const cursos = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA", "SIMULACROS", "DOMICILIARIAS", "TEMARIO"];
-    let esMama = false;
+    let modoAdmin = false;
+    let cursoActual = "";
 
     function validar() {
         const p = document.getElementById('pass-input').value;
         if(p === "MAMA2026" || p === "ESTUDIANTE01") {
-            esMama = (p === "MAMA2026");
+            modoAdmin = (p === "MAMA2026");
             document.getElementById('section-login').classList.add('hidden');
             document.getElementById('section-intranet').classList.remove('hidden');
-            document.getElementById('user-txt').innerText = esMama ? "Panel Administrador" : "Mis Cursos";
+            document.getElementById('user-txt').innerText = modoAdmin ? "MODO: MAMÁ (Control)" : "MODO: ALUMNO";
             renderCursos();
-        } else { alert("Código incorrecto"); }
+        } else { alert("Clave incorrecta"); }
     }
 
     function renderCursos() {
@@ -86,36 +91,45 @@
         });
     }
 
+    function toggleSemana(semanaId) {
+        let unlocked = JSON.parse(localStorage.getItem('unlockedSemanas') || '{}');
+        unlocked[semanaId] = !unlocked[semanaId];
+        localStorage.setItem('unlockedSemanas', JSON.stringify(unlocked));
+        abrirCurso(cursoActual); // Refrescar vista
+    }
+
     function abrirCurso(nombre) {
-        document.getElementById('modal-titulo').innerText = "Curso: " + nombre;
+        cursoActual = nombre;
+        document.getElementById('modal-titulo').innerText = nombre;
         const container = document.getElementById('contenedor-semanas');
         container.innerHTML = "";
         document.getElementById('modal-material').classList.remove('hidden');
 
+        let unlocked = JSON.parse(localStorage.getItem('unlockedSemanas') || '{}');
+
         for(let i=1; i<=40; i++) {
             let n = i < 10 ? "0"+i : i;
+            let semId = `${nombre}_S${n}`;
+            let estaAbierta = unlocked[semId] || false;
+            
             let baseUrl = `https://github.com/24135004/educativo/raw/main/${nombre}%202024%201-40`;
-
-            // CONFIGURACIÓN ESPECIAL SEMANA 1 ALGEBRA (Tus archivos reales)
-            let dLink = "#", pLink = "#", rLink = "#";
-            let dName = "Archivo", pName = "Archivo", rName = "Archivo";
-
-            if(nombre === "ALGEBRA" && i === 1) {
-                dLink = `${baseUrl}/DIAPOSITIVAS/ASM-TS001-AL.pdf`;
-                dName = "ASM-TS001-AL.pdf";
-                pLink = `${baseUrl}/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf`;
-                pName = "AL_ASM_Dir_Sem01.pdf";
-                rLink = `${baseUrl}/RESOLUCIONES/2024-03-08%2014-06-36.pdf`;
-                rName = "2024-03-08 14-06-36.pdf";
-            }
+            
+            // Datos semana 1 Algebra
+            let dLink = (nombre === "ALGEBRA" && i === 1) ? `${baseUrl}/DIAPOSITIVAS/ASM-TS001-AL.pdf` : "#";
+            let pLink = (nombre === "ALGEBRA" && i === 1) ? `${baseUrl}/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf` : "#";
+            let rLink = (nombre === "ALGEBRA" && i === 1) ? `${baseUrl}/RESOLUCIONES/2024-03-08%2014-06-36.pdf` : "#";
 
             let html = `
-                <div class="semana-bloque">
+                <div class="semana-bloque ${!estaAbierta && !modoAdmin ? 'bloqueado' : ''}">
+                    ${!estaAbierta ? '<span class="badge-locked">Bloqueado</span>' : ''}
                     <span class="semana-titulo">SEMANA ${n}</span>
+                    
+                    ${modoAdmin ? `<button class="btn-unlock" onclick="toggleSemana('${semId}')">${estaAbierta ? '🔒 Bloquear' : '🔓 Desbloquear para mi hijo'}</button>` : ''}
+                    
                     <div class="btn-group">
-                        <a href="${dLink}" target="_blank" class="btn-file">📖 Diapo: ${dName}</a>
-                        <a href="${pLink}" target="_blank" class="btn-file">📝 Práctica: ${pName}</a>
-                        ${esMama ? `<a href="${rLink}" target="_blank" class="btn-file btn-res">✅ Res: ${rName}</a>` : ''}
+                        <a href="${dLink}" target="_blank" class="btn-file">📖 Diapositiva</a>
+                        <a href="${pLink}" target="_blank" class="btn-file">📝 Práctica</a>
+                        ${modoAdmin ? `<a href="${rLink}" target="_blank" class="btn-file" style="color:green">✅ Solución</a>` : ''}
                     </div>
                 </div>`;
             container.innerHTML += html;
