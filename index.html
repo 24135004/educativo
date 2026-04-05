@@ -17,6 +17,7 @@
             --danger: #ff4757;
             --bg: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.7);
+            --glass: rgba(255, 255, 255, 0.03);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
         }
@@ -29,60 +30,66 @@
             background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
             color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .hidden { display: none !important; }
 
-        /* --- VENTANA FIJA DE NOTIFICACIÓN --- */
-        #notificacion-fija {
+        /* --- VENTANA FIJA DE NOTIFICACIÓN (Ajustada al diseño) --- */
+        #notif-fija-container {
             width: 100%;
-            padding: 1.2rem;
-            text-align: center;
-            font-weight: 700;
+            padding: 10px 5%;
             position: sticky;
-            top: 75px; /* Debajo del header */
-            z-index: 99;
+            top: 70px;
+            z-index: 90;
+        }
+        .notif-box {
+            padding: 1.2rem;
+            border-radius: 1.5rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
+            gap: 20px;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
+        .notif-mama { background: rgba(255, 71, 87, 0.9); color: white; }
+        .notif-alumno { background: rgba(99, 102, 241, 0.9); color: white; }
+        .btn-notif { background: white; color: black; border: none; padding: 7px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.7rem; }
 
-        .notif-mama { background: var(--danger); color: white; }
-        .notif-alumno { background: var(--accent); color: white; }
-
-        .btn-notif-accion {
-            background: white;
-            color: black;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-
-        /* --- RESTO DEL DISEÑO (SIN CAMBIOS) --- */
+        /* --- LOGIN SECTION --- */
         #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-card { background: var(--card-bg); backdrop-filter: blur(20px); padding: 3rem; border-radius: 2rem; width: 100%; max-width: 450px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .login-card h1 { font-size: 2.5rem; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        input { width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; color: white; margin-top: 2rem; }
-        .btn-primary { width: 100%; padding: 1.2rem; background: var(--primary); color: white; border: none; border-radius: 1rem; font-weight: 700; margin-top: 1rem; cursor: pointer; }
-        
-        header { padding: 1.5rem 5%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .badge { background: var(--primary); padding: 0.5rem 1.2rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 800; }
-        .container { max-width: 1300px; margin: 2rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-        .curso-card { background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 1.5rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .login-card { background: var(--card-bg); backdrop-filter: blur(20px); padding: 3rem; border-radius: 2rem; width: 100%; max-width: 450px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); text-align: center; }
+        .login-card h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-group { margin: 2rem 0; }
+        input { width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; color: white; font-size: 1rem; }
+        .btn-primary { width: 100%; padding: 1.2rem; background: var(--primary); color: white; border: none; border-radius: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
+        /* --- HEADER --- */
+        header { padding: 1.5rem 5%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 100; }
+        .badge { background: var(--primary); padding: 0.5rem 1.2rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 800; }
+
+        /* --- GRID CURSOS --- */
+        .container { max-width: 1300px; margin: 3rem auto; padding: 0 20px; }
+        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        .curso-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); padding: 2.5rem 1.5rem; border-radius: 1.5rem; text-align: center; transition: 0.4s; cursor: pointer; position: relative; overflow: hidden; }
+        .curso-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.05); border-color: var(--primary); }
+        .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
+
+        /* --- MODAL --- */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-        .modal-content { background: #1e293b; width: 100%; max-width: 1000px; height: 85vh; border-radius: 2.5rem; display: flex; flex-direction: column; }
-        .modal-header { padding: 2rem; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .modal-content { background: #1e293b; width: 100%; max-width: 1000px; height: 85vh; border-radius: 2.5rem; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
         .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
-        .week-item { background: rgba(255,255,255,0.02); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+        .week-item { background: rgba(255,255,255,0.02); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05); }
         .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
-        .file-link { padding: 0.8rem 1.5rem; border-radius: 0.8rem; text-decoration: none; font-size: 0.85rem; font-weight: 700; background: rgba(255,255,255,0.05); color: white; }
+        .file-link { padding: 0.8rem 1.5rem; border-radius: 0.8rem; text-decoration: none; font-size: 0.85rem; font-weight: 700; background: rgba(255,255,255,0.05); color: white; transition: 0.3s; }
+        .file-link:hover { background: var(--primary); }
+        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -90,8 +97,10 @@
     <section id="view-login">
         <div class="login-card">
             <h1>ACADEMY</h1>
-            <input type="password" id="pass" placeholder="Código de acceso">
-            <button class="btn-primary" onclick="initApp()">ACCEDER</button>
+            <div class="input-group">
+                <input type="password" id="pass" placeholder="Código de acceso">
+            </div>
+            <button class="btn-primary" onclick="initApp()">ACCEDER AHORA</button>
         </div>
     </section>
 
@@ -99,15 +108,15 @@
         <header>
             <div class="nav-info">
                 <div style="font-weight: 800; font-size: 1.4rem;">ACADEMY <span style="color:var(--primary)">.</span></div>
-                <div id="role-badge" class="badge">CARGANDO...</div>
+                <div id="role-badge" class="badge">ESTUDIANTE</div>
             </div>
-            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">SALIR</button>
+            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
         </header>
 
-        <div id="notificacion-fija" class="hidden"></div>
+        <div id="notif-fija-container" class="hidden"></div>
 
         <div class="container">
-            <h2 class="section-title">Mis Cursos</h2>
+            <h2 class="section-title">Explorar Cursos</h2>
             <div class="grid-cursos" id="main-grid"></div>
         </div>
     </section>
@@ -115,7 +124,7 @@
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title"></h2>
+                <h2 id="modal-title" style="font-weight: 800;"></h2>
                 <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
@@ -141,34 +150,19 @@
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        // 1. ESCUCHAR NOTIFICACIONES FIJAS
-        function escucharNotificaciones() {
-            db.ref('notificaciones').on('value', (snap) => {
-                const data = snap.val();
-                const banner = document.getElementById('notificacion-fija');
-                
-                if (!data) { banner.classList.add('hidden'); return; }
+        // --- LÓGICA DE NOTIFICACIONES ---
+        db.ref('notificaciones').on('value', (snap) => {
+            const data = snap.val();
+            const container = document.getElementById('notif-fija-container');
+            if (!data) { container.classList.add('hidden'); return; }
 
-                banner.classList.remove('hidden');
-
-                if (ES_MAMA && data.tipo === "SOLICITUD_MAMÁ") {
-                    banner.className = "notif-mama";
-                    banner.innerHTML = `
-                        <span>📢 TIENES QUE ACTIVAR UN CURSO: <b>${data.curso} - Semana ${data.semana}</b></span>
-                        <button class="btn-notif-accion" onclick="abrirParaActivar('${data.curso}')">IR A DESBLOQUEAR</button>
-                    `;
-                } 
-                else if (!ES_MAMA && data.tipo === "NUEVO_CURSO") {
-                    banner.className = "notif-alumno";
-                    banner.innerHTML = `
-                        <span>🔥 ¡NUEVO CURSO DESBLOQUEADO! Tienes que resolver: <b>${data.curso} - Sem ${data.semana}</b></span>
-                        <button class="btn-notif-accion" onclick="abrirParaResolver('${data.curso}')">EMPEZAR AHORA</button>
-                    `;
-                } else {
-                    banner.classList.add('hidden');
-                }
-            });
-        }
+            container.classList.remove('hidden');
+            if (ES_MAMA && data.tipo === "SOLICITUD_MAMÁ") {
+                container.innerHTML = `<div class="notif-box notif-mama"><span>📢 ACCIÓN REQUERIDA: Activar <b>${data.curso} - Sem ${data.semana}</b></span><button class="btn-notif" onclick="openModal('${data.curso}')">IR AHORA</button></div>`;
+            } else if (!ES_MAMA && data.tipo === "NUEVO_CURSO") {
+                container.innerHTML = `<div class="notif-box notif-alumno"><span>🚀 ¡NUEVO MATERIAL! Tienes que resolver: <b>${data.curso} - Sem ${data.semana}</b></span><button class="btn-notif" onclick="resolverYLimpiar('${data.curso}')">EMPEZAR</button></div>`;
+            } else { container.classList.add('hidden'); }
+        });
 
         async function initApp() {
             const p = document.getElementById('pass').value;
@@ -176,26 +170,19 @@
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = ES_MAMA ? "MAMÁ (ADMIN)" : "ALUMNO (ESTUDIANTE)";
+                document.getElementById('role-badge').innerText = ES_MAMA ? "MODO ADMINISTRADOR" : "MODO ESTUDIANTE";
+                if(ES_MAMA) document.getElementById('role-badge').style.background = "#10b981";
                 
-                // Cargar datos y activar notificaciones
                 db.ref('permisos').on('value', (snap) => {
                     DATA_CONTROL = snap.val() || {};
                     renderCursos();
                 });
-                
-                escucharNotificaciones();
-            } else { alert("Acceso denegado"); }
+            } else { alert("Código inválido"); }
         }
 
         function renderCursos() {
             const grid = document.getElementById('main-grid');
-            grid.innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')">
-                    <h3>${c}</h3>
-                    <p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">Ver semanas</p>
-                </div>
-            `).join('');
+            grid.innerHTML = CURSOS.map(c => `<div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3><p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">SEMANAS DISPONIBLES</p></div>`).join('');
         }
 
         function openModal(nombreCurso) {
@@ -209,42 +196,33 @@
             let html = "";
             for(let i=1; i<=40; i++) {
                 let idSem = `${nombreCurso}_S${i}`;
-                let activo = DATA_CONTROL[idSem] || false;
+                let desbloqueada = DATA_CONTROL[idSem] || false;
                 html += `
-                    <div class="week-item ${!activo && !ES_MAMA ? 'locked' : ''}">
-                        <div><b>SEMANA ${i}</b> - ${activo ? '✅ ABIERTO' : '🔒 BLOQUEADO'}</div>
-                        <div>
-                            <a href="#" class="file-link">VER MATERIAL</a>
-                            ${ES_MAMA ? `<button onclick="toggleSemana('${nombreCurso}', ${i})" class="file-link" style="background:var(--primary)">${activo ? 'BLOQUEAR' : 'DESBLOQUEAR'}</button>` : ''}
+                    <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
+                        <div><b>SEMANA ${i}</b> - ${desbloqueada ? 'ABIERTO' : 'BLOQUEADO'}</div>
+                        <div style="display:flex; gap:10px;">
+                            <a href="#" class="file-link">VER</a>
+                            ${ES_MAMA ? `<button onclick="toggleSemana('${nombreCurso}', ${i})" class="file-link btn-solucion">${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}</button>` : ''}
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
             body.innerHTML = html;
         }
 
-        // Lógica de activación y cambio de notificaciones
-        function toggleSemana(curso, semana) {
-            const id = `${curso}_S${semana}`;
+        function toggleSemana(curso, sem) {
+            const id = `${curso}_S${sem}`;
             const nuevoEstado = !DATA_CONTROL[id];
             db.ref('permisos/' + id).set(nuevoEstado);
-
             if (nuevoEstado) {
-                // Si mamá desbloquea, le llega la notificación al HIJO
-                db.ref('notificaciones').set({
-                    tipo: "NUEVO_CURSO",
-                    curso: curso,
-                    semana: semana
-                });
+                db.ref('notificaciones').set({ tipo: "NUEVO_CURSO", curso: curso, semana: sem });
             } else {
                 db.ref('notificaciones').remove();
             }
         }
 
-        function abrirParaActivar(curso) { openModal(curso); }
-        function abrirParaResolver(curso) { 
-            db.ref('notificaciones').remove(); // El hijo quita la notif al entrar
-            openModal(curso); 
+        function resolverYLimpiar(curso) {
+            db.ref('notificaciones').remove();
+            openModal(curso);
         }
 
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
