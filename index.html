@@ -36,23 +36,6 @@
 
         .hidden { display: none !important; }
 
-        .btn-drive-mama {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #4285F4, #34A853);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            text-decoration: none;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
         #mensaje-mama {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid var(--accent);
@@ -226,7 +209,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // LOS IDs QUE ME PASASTE (AQUÍ ESTÁ LA MAGIA)
         const ARCHIVOS_IDS = {
           "SEM 05 - SOLUCION.pdf": "1_q2XcPo3otcVbV6AklHnyH7oBxTDVf5s",
           "SEM 04 - SOLUCION.pdf": "1hi6gfmVFGVZhtJdiafK8LlKuXbsHgVSE",
@@ -249,9 +231,11 @@
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
+        // Escucha cambios en tiempo real
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
-            if(document.getElementById('modal-title').innerText) renderSemanas(document.getElementById('modal-title').innerText);
+            const activeTitle = document.getElementById('modal-title').innerText;
+            if(activeTitle) renderSemanas(activeTitle);
         });
 
         function initApp() {
@@ -287,25 +271,25 @@
                 let idControl = `${curso}_S${i}`;
                 let unlock = DATA_CONTROL[idControl] || false;
 
-                // Definimos los nombres de archivo que buscamos en el JSON de IDs
                 let nT = `SEM ${n} - TEORIA.pdf`;
                 let nP = `SEM ${n} - PRACTICA.pdf`;
                 let nS = `SEM ${n} - SOLUCION.pdf`;
 
-                // LINK: Si existe el ID, va directo. Si no, usa búsqueda genérica como respaldo.
                 let linkT = ARCHIVOS_IDS[nT] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nT]}/view` : "#";
                 let linkP = ARCHIVOS_IDS[nP] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nP]}/view` : "#";
                 let linkS = ARCHIVOS_IDS[nS] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nS]}/view` : "#";
 
                 html += `
                 <div class="week-item ${!unlock && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:700;">SEMANA ${n} ${unlock ? '✅' : ''}</div>
+                    <div style="font-weight:700;">SEMANA ${n} ${unlock ? '<span style="color:var(--accent)">[DESBLOQUEADA]</span>' : ''}</div>
                     <div class="action-btns">
                         <a href="${linkT}" target="_blank" class="file-link" ${linkT === "#" ? 'style="display:none"' : ''}>TEORÍA</a>
                         <a href="${linkP}" target="_blank" class="file-link" ${linkP === "#" ? 'style="display:none"' : ''}>PRÁCTICA</a>
                         ${ES_MAMA ? `
                             <a href="${linkS}" target="_blank" class="file-link btn-solucion" ${linkS === "#" ? 'style="display:none"' : ''}>SOLUCIÓN</a>
-                            <button onclick="toggle('${idControl}')" class="file-link btn-control">${unlock ? 'BLOQUEAR' : 'ACTIVAR'}</button>
+                            <button onclick="toggle('${idControl}')" class="file-link btn-control">
+                                ${unlock ? 'BLOQUEAR' : 'ACTIVAR'}
+                            </button>
                         ` : ''}
                     </div>
                 </div>`;
@@ -313,8 +297,15 @@
             body.innerHTML = html;
         }
 
+        // FUNCIÓN MEJORADA: Cambia el estado en Firebase
         function toggle(id) {
-            db.ref('permisos/' + id).set(!(DATA_CONTROL[id] || false));
+            console.log("Cambiando estado de:", id);
+            const estadoActual = DATA_CONTROL[id] || false;
+            const nuevoEstado = !estadoActual;
+            
+            db.ref('permisos/' + id).set(nuevoEstado)
+                .then(() => console.log(id + " cambiado a " + nuevoEstado))
+                .catch((err) => console.error("Error en Firebase:", err));
         }
 
         function closeModal() { 
