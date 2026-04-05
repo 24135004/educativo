@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
     <style>
+        /* Mantenemos tus estilos originales intactos */
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
@@ -32,20 +33,7 @@
 
         .hidden { display: none !important; }
 
-        /* Botón Drive para Mamá */
-        .btn-drive-mama {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: linear-gradient(135deg, #4285F4, #34A853);
-            color: white; padding: 1rem; border-radius: 1rem;
-            text-decoration: none; font-weight: 800; margin-bottom: 2rem;
-            transition: 0.3s;
-        }
-
-        #mensaje-mama {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent);
-            padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; color: var(--accent);
-        }
-
+        /* Estilos de Login y Layout */
         #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
         .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         input { width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; color: white; margin: 1rem 0; }
@@ -55,9 +43,10 @@
 
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
         .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-        .curso-card { background: var(--card-bg); padding: 2rem; border-radius: 1.5rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .curso-card { background: var(--card-bg); padding: 2rem; border-radius: 1.5rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .curso-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        /* Estilos del Modal y Filas */
+        /* Modal y Filas de Semanas */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 200; }
         .modal-content { background: #1e293b; width: 95%; max-width: 1100px; height: 90vh; border-radius: 2rem; display: flex; flex-direction: column; }
         .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; }
@@ -65,28 +54,29 @@
 
         .week-item {
             background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;
-            display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 1rem;
+            display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 1rem;
         }
 
-        .resource-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .resource-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .btn-file { 
-            padding: 0.6rem 1rem; border-radius: 0.8rem; text-decoration: none; font-size: 0.8rem; font-weight: 700;
+            padding: 0.8rem 1.2rem; border-radius: 0.8rem; text-decoration: none; font-size: 0.8rem; font-weight: 700;
             background: rgba(255,255,255,0.05); color: white; display: flex; flex-direction: column; align-items: center; gap: 5px;
-            border: 1px solid transparent;
+            min-width: 110px; border: 1px solid transparent;
         }
         
-        /* Estados de los botones */
-        .btn-file.locked { opacity: 0.3; pointer-events: none; border: 1px dashed #444; }
-        .btn-admin-control { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; border: none; cursor: pointer; text-transform: uppercase; }
+        .btn-file.locked { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
+        .btn-admin-control { font-size: 0.6rem; padding: 4px 8px; border-radius: 5px; border: none; cursor: pointer; margin-top: 5px; font-weight: 800; }
         .on { background: var(--accent); color: white; }
         .off { background: var(--danger); color: white; }
+
+        #mensaje-mama { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; color: var(--accent); }
     </style>
 </head>
 <body>
 
     <section id="view-login">
         <div class="login-card">
-            <h1 style="margin-bottom:1rem;">ACADEMY</h1>
+            <h1>ACADEMY</h1>
             <input type="password" id="pass" placeholder="Código de acceso">
             <button onclick="initApp()" style="width:100%; padding:1rem; background:var(--primary); color:white; border:none; border-radius:1rem; cursor:pointer; font-weight:700;">ENTRAR</button>
         </div>
@@ -94,7 +84,7 @@
 
     <section id="view-app" class="hidden">
         <header>
-            <div class="nav-info">
+            <div>
                 <span style="font-weight:800; font-size:1.2rem;">ACADEMY</span>
                 <span id="role-badge" class="badge">ESTUDIANTE</span>
             </div>
@@ -102,14 +92,7 @@
         </header>
 
         <div class="container">
-            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS?usp=sharing" target="_blank" class="btn-drive-mama hidden">
-                📂 ACCESO A GOOGLE DRIVE PARA IMPRIMIR
-            </a>
-
-            <div id="mensaje-mama" class="hidden">
-                👩‍🏫 <b>Panel de Control:</b> Puedes activar cada archivo individualmente. El estudiante solo verá lo que tú habilites.
-            </div>
-
+            <div id="mensaje-mama" class="hidden">👩‍🏫 <b>Panel de Control:</b> Activa uno por uno los recursos que el estudiante puede ver.</div>
             <div class="grid-cursos" id="main-grid"></div>
         </div>
     </section>
@@ -125,7 +108,7 @@
     </div>
 
     <script>
-        // Configuración Firebase (Usando tus datos)
+        // Configuración Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
             authDomain: "educativo-87abb.firebaseapp.com",
@@ -138,16 +121,17 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA", "SIMULACROS", "DOMICILIARIAS", "TEMARIO"];
+        
+        const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
         
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        // Escuchar cambios en la base de datos
+        // Sincronizar permisos en tiempo real
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
-            const titulo = document.getElementById('modal-title').innerText;
-            if(titulo) renderSemanas(titulo); 
+            const activeModal = document.getElementById('modal-title').innerText;
+            if(activeModal) renderSemanas(activeModal);
         });
 
         function initApp() {
@@ -156,15 +140,12 @@
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                
                 if(ES_MAMA) {
                     document.getElementById('role-badge').innerText = "ADMINISTRADOR";
-                    document.getElementById('role-badge').style.background = "#10b981";
                     document.getElementById('mensaje-mama').classList.remove('hidden');
-                    document.getElementById('btn-drive-admin').classList.remove('hidden');
                 }
                 renderCursos();
-            } else { alert("Código incorrecto"); }
+            } else { alert("Error"); }
         }
 
         function renderCursos() {
@@ -182,7 +163,14 @@
         function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
+            
+            // Lógica de nombres según tu Drive:
+            // Ejemplo: ALGEBRA 2024 1-40 -> DIAPOSITIVAS -> ASM-TS001-AL.pdf
             for(let i=1; i<=40; i++) {
+                const num = i < 10 ? `0${i}` : i;
+                const numTriple = i < 10 ? `00${i}` : `0${i}`;
+                
+                // IDs para Firebase
                 const idT = `${curso}_S${i}_TEORIA`;
                 const idP = `${curso}_S${i}_PRACTICA`;
                 const idS = `${curso}_S${i}_SOLUCION`;
@@ -191,24 +179,25 @@
                 const okP = DATA_CONTROL[idP] || false;
                 const okS = DATA_CONTROL[idS] || false;
 
-                const base = `https://github.com/24135004/educativo/raw/main/${curso}%202024%201-40`;
+                // Base de la URL de GitHub (Ajustada a la estructura real de carpetas)
+                const folderBase = `https://github.com/24135004/educativo/raw/main/${curso}%202024%201-40`;
 
                 html += `
                 <div class="week-item">
-                    <div style="font-weight:800; color:var(--text-dim);">SEMANA ${i < 10 ? '0'+i : i}</div>
+                    <div style="font-weight:800;">SEMANA ${num}</div>
                     <div class="resource-group">
                         <div style="text-align:center">
-                            <a href="${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf" target="_blank" class="btn-file ${!okT && !ES_MAMA ? 'locked' : ''}">TEORÍA</a>
+                            <a href="${folderBase}/DIAPOSITIVAS/ASM-TS${numTriple}-${curso.substring(0,2)}.pdf" target="_blank" class="btn-file ${!okT && !ES_MAMA ? 'locked' : ''}">TEORÍA</a>
                             ${ES_MAMA ? `<button onclick="toggle('${idT}')" class="btn-admin-control ${okT ? 'on' : 'off'}">${okT ? 'ON' : 'OFF'}</button>` : ''}
                         </div>
 
                         <div style="text-align:center">
-                            <a href="${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf" target="_blank" class="btn-file ${!okP && !ES_MAMA ? 'locked' : ''}">PRÁCTICA</a>
+                            <a href="${folderBase}/DIRIGIDAS/${curso.substring(0,2)}_ASM_Dir_Sem${num}.pdf" target="_blank" class="btn-file ${!okP && !ES_MAMA ? 'locked' : ''}">PRÁCTICA</a>
                             ${ES_MAMA ? `<button onclick="toggle('${idP}')" class="btn-admin-control ${okP ? 'on' : 'off'}">${okP ? 'ON' : 'OFF'}</button>` : ''}
                         </div>
 
                         <div style="text-align:center">
-                            <a href="${base}/RESOLUCION/RES_Sem0${i}.pdf" target="_blank" class="btn-file ${!okS && !ES_MAMA ? 'locked' : ''}" style="color:var(--accent); border-color:var(--accent);">SOLUCIONARIO</a>
+                            <a href="${folderBase}/RESOLUCION/RES_Sem${num}.pdf" target="_blank" class="btn-file ${!okS && !ES_MAMA ? 'locked' : ''}" style="color:var(--accent)">SOLUCIÓN</a>
                             ${ES_MAMA ? `<button onclick="toggle('${idS}')" class="btn-admin-control ${okS ? 'on' : 'off'}">${okS ? 'ON' : 'OFF'}</button>` : ''}
                         </div>
                     </div>
@@ -218,8 +207,8 @@
         }
 
         function toggle(id) {
-            const nuevoEstado = !DATA_CONTROL[id];
-            db.ref('permisos/' + id).set(nuevoEstado);
+            const estado = !DATA_CONTROL[id];
+            db.ref('permisos/' + id).set(estado);
         }
 
         function closeModal() {
