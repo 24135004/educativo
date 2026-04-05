@@ -153,11 +153,12 @@
             document.getElementById('modal').classList.remove('hidden');
             renderSemanas(c);
         }
-
-        function renderSemanas(curso) {
+function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
-            const folderId = FOLDER_IDS[curso] || "";
+            
+            // ID de la carpeta de Álgebra que ya tiene los nombres limpios
+            const folderIdAlgebra = "17GXptURjIEOLTb9ML5XBTwUa82njbj_3";
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
@@ -166,13 +167,14 @@
 
                 let linkT, linkP, linkR;
 
-                if (folderId !== "") {
-                    // SI LA CARPETA ESTÁ REGISTRADA (Como Álgebra), busca por nombre limpio
-                    linkT = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - TEORIA"`;
-                    linkP = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - PRACTICA"`;
-                    linkR = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - RESOLUCION"`;
+                if (curso === "ALGEBRA") {
+                    // SI ES ÁLGEBRA: Busca directamente por el nombre exacto en esa carpeta
+                    // Esto abrirá el archivo que el script acaba de renombrar
+                    linkT = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - TEORIA"`;
+                    linkP = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - PRACTICA"`;
+                    linkR = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - RESOLUCION"`;
                 } else {
-                    // SI NO TIENE ID, hace una búsqueda general por nombre de curso
+                    // PARA OTROS CURSOS: Mantener búsqueda general mientras los renombras
                     linkT = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Teoria"`;
                     linkP = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Practica"`;
                     linkR = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "RES"`;
@@ -180,7 +182,7 @@
 
                 html += `
                 <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:800; color:var(--text-main)">SEMANA ${n}</div>
+                    <div style="font-weight:800;">SEMANA ${n}</div>
                     <div class="action-btns">
                         <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
                         <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
@@ -192,7 +194,6 @@
                         ` : ''}
                     </div>
                 </div>`;
-            }
             body.innerHTML = html;
         }
 
