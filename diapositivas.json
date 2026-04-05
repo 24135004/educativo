@@ -1,8 +1,14 @@
 [
   {
     "curso": "ARITMÉTICA",
-    "tema": "Semana 1: Razones",
+    "tema": "Semana 1: Razones I",
     "url": "https://raw.githubusercontent.com/24135004/educativo/main/ARITMETICA%202024%201-40/DIAPOSITIVAS/ASM-TS001-AR.pdf",
-    "mensaje": "Empieza con este tema. Es la base de todo."
+    "mensaje": "🚩 APRENDER PRIMERO: Revisa esta teoría antes de imprimir la práctica."
+  },
+  {
+    "curso": "ARITMÉTICA",
+    "tema": "Semana 2: Razones II",
+    "url": "https://raw.githubusercontent.com/24135004/educativo/main/ARITMETICA%202024%201-40/DIAPOSITIVAS/ASM-TS002-AR.pdf",
+    "mensaje": "Continuación de la semana 1. Enfócate en las propiedades."
   }
 ]
