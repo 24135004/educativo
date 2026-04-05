@@ -276,9 +276,9 @@
         </header>
 
         <div class="container">
-            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS?usp=sharing" target="_blank" class="btn-drive-mama hidden">
+            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS?usp=drive_link" target="_blank" class="btn-drive-mama hidden">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" width="24" alt="Drive">
-                ABRIR MATERIALES EN GOOGLE DRIVE PARA IMPRIMIR
+                ABRIR CARPETA PRINCIPAL EN GOOGLE DRIVE
             </a>
 
             <div id="mensaje-mama" class="hidden">
@@ -378,10 +378,9 @@
             const body = document.getElementById('modal-body');
             let html = "";
             
-            // Aquí está la corrección: Sacamos las 2 primeras letras del curso automáticamente
             let sigla = nombreCurso.substring(0, 2).toUpperCase();
             
-            // Casos especiales para evitar choques
+            // Casos especiales de siglas
             if(nombreCurso === "FISICA") sigla = "FI";
             if(nombreCurso === "FILOSOFIA") sigla = "FL"; 
             if(nombreCurso === "GEOGRAFIA") sigla = "GE";
@@ -396,8 +395,15 @@
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
                 
-                // Mantenemos tu base de Github, pero codificando la URL para evitar errores 404
-                let base = `https://github.com/24135004/educativo/raw/main/${encodeURIComponent(nombreCurso + " 2024 1-40")}`;
+                // NOMBRES EXACTOS DE LOS ARCHIVOS BASADOS EN TU ESTRUCTURA
+                let nombreTeoria = `ASM-TS${nTriple}-${sigla}`;
+                let nombrePractica = `${sigla}_ASM_Dir_Sem${n}`;
+                let nombreSolucion = `RES_Sem${n}`;
+
+                // RUTAS INTELIGENTES: Le pedimos a Drive que busque automáticamente ese nombre de archivo
+                let linkTeoria = `https://drive.google.com/drive/search?q=${encodeURIComponent('"' + nombreTeoria + '"')}`;
+                let linkPractica = `https://drive.google.com/drive/search?q=${encodeURIComponent('"' + nombrePractica + '"')}`;
+                let linkSolucion = `https://drive.google.com/drive/search?q=${encodeURIComponent('"' + nombreSolucion + '" "' + nombreCurso + '"')}`;
                 
                 html += `
                     <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
@@ -408,10 +414,10 @@
                             </div>
                         </div>
                         <div class="action-btns">
-                            <a href="${base}/DIAPOSITIVAS/ASM-TS${nTriple}-${sigla}.pdf" target="_blank" class="file-link">TEORÍA</a>
-                            <a href="${base}/DIRIGIDAS/${sigla}_ASM_Dir_Sem${n}.pdf" target="_blank" class="file-link">PRÁCTICA</a>
+                            <a href="${linkTeoria}" target="_blank" class="file-link">TEORÍA</a>
+                            <a href="${linkPractica}" target="_blank" class="file-link">PRÁCTICA</a>
                             ${ES_MAMA ? `
-                                <a href="${base}/RESOLUCION/RES_Sem${n}.pdf" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>
+                                <a href="${linkSolucion}" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>
                                 <button onclick="toggleSemana('${idSemana}')" class="file-link btn-control">
                                     ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
                                 </button>` : ''}
