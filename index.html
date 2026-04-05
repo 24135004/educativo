@@ -20,6 +20,7 @@
             --glass: rgba(255, 255, 255, 0.03);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
+            --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,6 +36,40 @@
 
         .hidden { display: none !important; }
 
+        /* --- NOTIFICACIONES ESTILO --- */
+        #notification-banner {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .toast-notif {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 1.2rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* --- LOGIN SECTION --- */
         #view-login {
             height: 100vh;
             display: flex;
@@ -86,6 +121,9 @@
             box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
         }
 
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* --- MAIN APP SECTION --- */
         header {
             padding: 1.5rem 5%;
             background: rgba(15, 23, 42, 0.8);
@@ -120,10 +158,23 @@
             transition: 0.4s;
             cursor: pointer;
             position: relative;
+            overflow: hidden;
         }
 
-        .curso-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .curso-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); opacity: 0; transition: 0.3s;
+        }
 
+        .curso-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.05);
+            border-color: var(--primary);
+        }
+
+        .curso-card:hover::before { opacity: 1; }
+        .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
+
+        /* --- MODAL Y SEMANAS --- */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
@@ -141,7 +192,7 @@
         }
 
         .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
+        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; }
 
         .week-item {
             background: rgba(255,255,255,0.02);
@@ -152,10 +203,13 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
 
-        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
+        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; border-style: dashed; }
 
+        .week-name { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        
         .action-btns { display: flex; gap: 1rem; }
         
         .file-link {
@@ -164,24 +218,40 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(255,255,255,0.05);
             color: var(--text-main);
+            transition: 0.3s;
         }
 
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent; }
-        .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
+        .file-link:hover { background: var(--primary); color: white; }
+        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent;}
+        .btn-solucion:hover { background: var(--accent); color: white; }
+
         .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
+        .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
+
+        @media (max-width: 768px) {
+            .week-item { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .action-btns { width: 100%; flex-direction: column; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="notification-banner" class="hidden"></div>
+    <div id="toast-container"></div>
+
     <section id="view-login">
         <div class="login-card">
             <h1>ACADEMY</h1>
+            <p style="color:var(--text-dim)">Ingresa a tu plataforma de aprendizaje</p>
             <div class="input-group">
                 <input type="password" id="pass" placeholder="Código de acceso">
             </div>
-            <button class="btn-primary" onclick="initApp()">ACCEDER</button>
+            <button class="btn-primary" onclick="initApp()">ACCEDER AHORA</button>
         </div>
     </section>
 
@@ -193,8 +263,9 @@
             </div>
             <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
         </header>
+
         <div class="container">
-            <h2 class="section-title">Cursos</h2>
+            <h2 class="section-title">Explorar Cursos</h2>
             <div class="grid-cursos" id="main-grid"></div>
         </div>
     </section>
@@ -202,7 +273,7 @@
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title"></h2>
+                <h2 id="modal-title" style="font-weight: 800;"></h2>
                 <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
@@ -227,10 +298,40 @@
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
+        // Escuchar permisos
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
             const tituloModal = document.getElementById('modal-title').innerText;
             if(tituloModal) renderSemanas(tituloModal); 
+        });
+
+        // --- LÓGICA DE NOTIFICACIONES EN TIEMPO REAL ---
+        db.ref('notificaciones').on('value', (snap) => {
+            const data = snap.val();
+            if(!data) return;
+
+            const banner = document.getElementById('notification-banner');
+            const toastContainer = document.getElementById('toast-container');
+
+            if(ES_MAMA) {
+                // Notificación para la Mamá
+                banner.classList.remove('hidden');
+                banner.style.background = "#f59e0b"; // Naranja advertencia
+                banner.innerHTML = `⚠️ ATENCIÓN: El curso ${data.curso} (Semana ${data.semana}) requiere revisión.`;
+            } else {
+                // Notificación para el Hermano (Estudiante)
+                if(data.tipo === "DESBLOQUEO") {
+                    toastContainer.innerHTML = `
+                        <div class="toast-notif">
+                            <span style="font-weight:800; color:var(--accent);">📘 ¡NUEVO CURSO DISPONIBLE!</span>
+                            <span style="font-size:0.9rem;">Tienes pendiente: <b>${data.curso} - Semana ${data.semana}</b></span>
+                            <button onclick="this.parentElement.remove()" style="background:var(--primary); border:none; color:white; padding:5px; border-radius:5px; cursor:pointer; font-size:0.7rem;">ENTENDIDO</button>
+                        </div>
+                    `;
+                    // Auto-cerrar después de 8 segundos
+                    setTimeout(() => { if(toastContainer.firstChild) toastContainer.firstChild.remove(); }, 8000);
+                }
+            }
         });
 
         async function initApp() {
@@ -247,7 +348,12 @@
 
         function renderCursos() {
             const grid = document.getElementById('main-grid');
-            grid.innerHTML = CURSOS.map(c => `<div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>`).join('');
+            grid.innerHTML = CURSOS.map(c => `
+                <div class="curso-card" onclick="openModal('${c}')">
+                    <h3>${c}</h3>
+                    <p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">40 SEMANAS DISPONIBLES</p>
+                </div>
+            `).join('');
         }
 
         function openModal(nombreCurso) {
@@ -260,31 +366,40 @@
             const body = document.getElementById('modal-body');
             let html = "";
             for(let i=1; i<=40; i++) {
+                let n = i < 10 ? "0"+i : i;
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
+                let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
+                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`;
+                let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
+
                 html += `
                     <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
                         <div>
-                            <strong>SEMANA ${i}</strong> ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
+                            <div class="week-name">
+                                SEMANA ${n} 
+                                ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
+                            </div>
                         </div>
                         <div class="action-btns">
-                            <a href="#" class="file-link">TEORÍA</a>
-                            ${ES_MAMA ? `<button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}</button>` : ''}
+                            <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
+                            <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
+                            ${ES_MAMA ? `
+                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
+                                    ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
+                                </button>` : ''}
                         </div>
-                    </div>`;
+                    </div>
+                `;
             }
             body.innerHTML = html;
         }
 
-        // --- ESTA ES LA PARTE QUE CORREGÍ ---
         function toggleSemana(id) {
             const estadoActual = DATA_CONTROL[id] || false;
             const nuevoEstado = !estadoActual;
-            
-            // 1. Actualiza el permiso (como ya lo hacías)
             db.ref('permisos/' + id).set(nuevoEstado);
 
-            // 2. LÓGICA DE NOTIFICACIONES (Lo que faltaba)
             const partes = id.split('_S');
             const cursoNombre = partes[0];
             const numeroSemana = partes[1];
@@ -297,7 +412,10 @@
             });
         }
 
-        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+        function closeModal() { 
+            document.getElementById('modal-title').innerText = "";
+            document.getElementById('modal').classList.add('hidden'); 
+        }
     </script>
 </body>
 </html>
