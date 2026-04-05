@@ -115,7 +115,6 @@
 
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
         
-        // IDs de carpetas (Actualiza aquí conforme renombres más cursos)
         const FOLDER_IDS = {
             "ALGEBRA": "17GXptURjIEOLTb9ML5XBTwUa82njbj_3"
         };
@@ -153,28 +152,23 @@
             document.getElementById('modal').classList.remove('hidden');
             renderSemanas(c);
         }
-function renderSemanas(curso) {
+
+        function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
-            
-            // ID de la carpeta de Álgebra que ya tiene los nombres limpios
-            const folderIdAlgebra = "17GXptURjIEOLTb9ML5XBTwUa82njbj_3";
+            const folderIdAlgebra = FOLDER_IDS["ALGEBRA"];
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
                 let id = `${curso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[id] || false;
-
                 let linkT, linkP, linkR;
 
                 if (curso === "ALGEBRA") {
-                    // SI ES ÁLGEBRA: Busca directamente por el nombre exacto en esa carpeta
-                    // Esto abrirá el archivo que el script acaba de renombrar
                     linkT = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - TEORIA"`;
                     linkP = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - PRACTICA"`;
                     linkR = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - RESOLUCION"`;
                 } else {
-                    // PARA OTROS CURSOS: Mantener búsqueda general mientras los renombras
                     linkT = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Teoria"`;
                     linkP = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Practica"`;
                     linkR = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "RES"`;
@@ -194,8 +188,9 @@ function renderSemanas(curso) {
                         ` : ''}
                     </div>
                 </div>`;
+            } // <--- Aquí cerré el ciclo FOR
             body.innerHTML = html;
-        }
+        } // <--- Aquí cerré la función RENDERSEMANAS
 
         function toggle(id) {
             const current = DATA_CONTROL[id] || false;
