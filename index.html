@@ -12,13 +12,12 @@
     <style>
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --accent: #10b981;
-            --danger: #ff4757;
             --bg: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.7);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
+            --danger: #ff4757;
+            --accent: #10b981;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,62 +30,49 @@
         }
         .hidden { display: none !important; }
 
-        header { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
+        /* Login */
+        #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; text-align: center; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); }
+        input { width: 100%; padding: 1rem; margin: 1.5rem 0; border-radius: 1rem; border: none; background: rgba(0,0,0,0.3); color: #fff; text-align: center; font-size: 1.2rem; }
+        
+        /* App */
+        header { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
-        .curso-card {
-            background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 1.5rem;
-            text-align: center; cursor: pointer; transition: 0.4s;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .curso-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2); }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+        .curso-card { background: var(--card-bg); padding: 2rem 1rem; border-radius: 1.2rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .curso-card:hover { border-color: var(--primary); transform: translateY(-5px); }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: #1e293b; width: 100%; max-width: 950px; height: 85vh; border-radius: 2.5rem; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
-        .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; }
+        /* Modal */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: #1e293b; width: 100%; max-width: 900px; height: 85vh; border-radius: 2rem; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; }
 
-        .week-item {
-            background: rgba(255,255,255,0.03); border-radius: 1.2rem; padding: 1.2rem;
-            margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .week-item { background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 1rem; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between; }
         .week-item.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
         
-        .action-btns { display: flex; gap: 0.8rem; }
-        .file-link {
-            padding: 0.7rem 1.2rem; border-radius: 0.8rem; text-decoration: none;
-            font-size: 0.8rem; font-weight: 700; background: rgba(255,255,255,0.08); color: white; transition: 0.3s;
-        }
-        .file-link:hover { background: var(--primary); }
+        .action-btns { display: flex; gap: 0.5rem; }
+        .file-link { padding: 0.6rem 1rem; border-radius: 0.7rem; text-decoration: none; font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); color: white; }
+        .btn-control { background: var(--primary); border: none; cursor: pointer; color: white; }
         .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
-        .btn-control { background: var(--primary) !important; border: none; cursor: pointer; color: white; }
-
-        #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-card { background: var(--card-bg); padding: 3.5rem; border-radius: 2.5rem; text-align: center; width: 420px; border: 1px solid rgba(255,255,255,0.1); }
-        input { width: 100%; padding: 1.2rem; margin: 1.5rem 0; border-radius: 1rem; border: none; background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem; text-align: center; }
     </style>
 </head>
 <body>
 
     <section id="view-login">
         <div class="login-card">
-            <h1 style="letter-spacing: 2px; margin-bottom: 10px;">ACADEMY</h1>
-            <p style="color: var(--text-dim); font-size: 0.9rem;">Ingrese su código de acceso</p>
+            <h1>ACADEMY</h1>
             <input type="password" id="pass" placeholder="••••••••">
-            <button onclick="initApp()" class="btn-control" style="width:100%; padding:1.2rem; border-radius:1rem; font-weight:800;">ENTRAR AL SISTEMA</button>
+            <button onclick="initApp()" class="btn-control" style="width:100%; padding:1rem; border-radius:1rem; font-weight:800; cursor:pointer;">ENTRAR</button>
         </div>
     </section>
 
     <section id="view-app" class="hidden">
         <header>
-            <div style="font-weight: 800; font-size: 1.2rem;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 5px 12px; border-radius: 20px; margin-left: 10px;"></span></div>
-            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer;">SALIR</button>
+            <div style="font-weight: 800;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 4px 10px; border-radius: 10px; margin-left: 5px;"></span></div>
+            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; cursor: pointer; font-weight: bold;">SALIR</button>
         </header>
-
         <div class="container">
-            <h2 style="margin-bottom: 2rem;">Cursos Disponibles</h2>
             <div id="main-grid" class="grid-cursos"></div>
         </div>
     </section>
@@ -95,7 +81,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modal-title"></h2>
-                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2.5rem; cursor:pointer;">&times;</button>
+                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
         </div>
@@ -114,10 +100,7 @@
         const db = firebase.database();
 
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
-        
-        const FOLDER_IDS = {
-            "ALGEBRA": "17GXptURjIEOLTb9ML5XBTwUa82njbj_3"
-        };
+        const folderIdAlgebra = "17GXptURjIEOLTb9ML5XBTwUa82njbj_3";
 
         let ES_MAMA = false;
         let DATA_CONTROL = {};
@@ -134,16 +117,14 @@
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = ES_MAMA ? "ADMINISTRADOR" : "ESTUDIANTE";
+                document.getElementById('role-badge').innerText = ES_MAMA ? "ADMIN" : "ALUMNO";
                 renderCursos();
-            } else { alert("Código de acceso incorrecto"); }
+            } else { alert("Código incorrecto"); }
         }
 
         function renderCursos() {
             document.getElementById('main-grid').innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')">
-                    <h3 style="font-size: 1rem; letter-spacing: 1px;">${c}</h3>
-                </div>
+                <div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>
             `).join('');
         }
 
@@ -156,7 +137,6 @@
         function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
-            const folderIdAlgebra = FOLDER_IDS["ALGEBRA"];
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
@@ -176,21 +156,19 @@
 
                 html += `
                 <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:800;">SEMANA ${n}</div>
+                    <div style="font-weight:bold;">SEMANA ${n}</div>
                     <div class="action-btns">
                         <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
                         <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
                         ${ES_MAMA ? `
-                            <a href="${linkR}" target="_blank" class="file-link btn-solucion">RESOLUCIÓN</a>
-                            <button onclick="toggle('${id}')" class="file-link btn-control">
-                                ${desbloqueada ? 'BLOQUEAR' : 'ACTIVAR'}
-                            </button>
+                            <a href="${linkR}" target="_blank" class="file-link btn-solucion">RES</a>
+                            <button onclick="toggle('${id}')" class="file-link btn-control">${desbloqueada ? 'LOCK' : 'OPEN'}</button>
                         ` : ''}
                     </div>
                 </div>`;
-            } // <--- Aquí cerré el ciclo FOR
+            }
             body.innerHTML = html;
-        } // <--- Aquí cerré la función RENDERSEMANAS
+        }
 
         function toggle(id) {
             const current = DATA_CONTROL[id] || false;
