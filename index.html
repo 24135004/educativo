@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Estudios</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f9; padding: 20px; }
+        .hidden { display: none; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; margin-top: 50px; }
+        .btn { display: block; width: 250px; padding: 15px; margin: 10px auto; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-mama { background: #28a745; }
+        input { padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 80%; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="login-section" class="card">
+        <h2>Panel de Acceso</h2>
+        <input type="password" id="pass" placeholder="Ingresa el código...">
+        <button onclick="acceder()" class="btn">Entrar</button>
+    </div>
+
+    <div id="contenido" class="hidden">
+        <h2 id="saludo"></h2>
+        
+        <h3>Material para imprimir (Alumno)</h3>
+        <a href="https://github.com/tu-usuario/educativo/tree/main/material-alumno" class="btn">Ver Diapositivas y Prácticas</a>
+
+        <div id="seccion-mama" class="hidden">
+            <hr>
+            <h3 style="color: #28a745;">Panel de Supervisión (Mamá)</h3>
+            <p>Aquí puedes ver las resoluciones para corregir:</p>
+            <a href="https://github.com/tu-usuario/educativo/tree/main/resoluciones-mama" class="btn btn-mama">Ver Resoluciones (PDF)</a>
+        </div>
+
+        <button onclick="location.reload()" style="margin-top: 20px;">Cerrar Sesión</button>
+    </div>
+
+    <script>
+        function acceder() {
+            const pass = document.getElementById('pass').value;
+            const login = document.getElementById('login-section');
+            const contenido = document.getElementById('contenido');
+            const seccionMama = document.getElementById('seccion-mama');
+            const saludo = document.getElementById('saludo');
+
+            if (pass === "MAMA123") { // Código para tu mamá
+                login.classList.add('hidden');
+                contenido.classList.remove('hidden');
+                seccionMama.classList.remove('hidden');
+                saludo.innerText = "¡Hola, Mamá! Lista para supervisar.";
+            } else if (pass === "HERMANO123") { // Código para tu hermano
+                login.classList.add('hidden');
+                contenido.classList.remove('hidden');
+                seccionMama.classList.add('hidden');
+                saludo.innerText = "¡Hola! A estudiar mucho.";
+            } else {
+                alert("Código incorrecto");
+            }
+        }
+    </script>
+</body>
+</html>
