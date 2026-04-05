@@ -5,417 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISTEMA ACADÉMICO | INTRANET</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --accent: #10b981;
-            --danger: #ff4757;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --glass: rgba(255, 255, 255, 0.03);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --warning: #f59e0b;
-        }
-
+        :root { --primary: #6366f1; --accent: #10b981; --danger: #ff4757; --bg: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --text-main: #f8fafc; --text-dim: #94a3b8; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-main); min-height: 100vh; }
         .hidden { display: none !important; }
-
-        /* --- NOTIFICACIONES ESTILO --- */
-        #notification-banner {
-            background: var(--primary);
-            color: white;
-            padding: 12px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            position: sticky;
-            top: 0;
-            z-index: 1001;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .toast-notif {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--primary);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 1.2rem;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            animation: slideIn 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
-        /* --- LOGIN SECTION --- */
-        #view-login {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            padding: 3rem;
-            border-radius: 2rem;
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .login-card h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .input-group { margin: 2rem 0; position: relative; }
-        
-        input {
-            width: 100%;
-            padding: 1.2rem;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            color: white;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); }
-
-        .btn-primary {
-            width: 100%;
-            padding: 1.2rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-
-        /* --- MAIN APP SECTION --- */
-        header {
-            padding: 1.5rem 5%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-info { display: flex; align-items: center; gap: 1rem; }
-        .badge { background: var(--primary); padding: 0.5rem 1.2rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
-
-        .container { max-width: 1300px; margin: 3rem auto; padding: 0 20px; }
-        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
-
-        .grid-cursos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .curso-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 2.5rem 1.5rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            transition: 0.4s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .curso-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); opacity: 0; transition: 0.3s;
-        }
-
-        .curso-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.05);
-            border-color: var(--primary);
-        }
-
-        .curso-card:hover::before { opacity: 1; }
-        .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
-
-        /* --- MODAL Y SEMANAS --- */
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
-        }
-
-        .modal-content {
-            background: #1e293b;
-            width: 100%;
-            max-width: 1000px;
-            height: 85vh;
-            border-radius: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; }
-
-        .week-item {
-            background: rgba(255,255,255,0.02);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
-        }
-
-        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; border-style: dashed; }
-
-        .week-name { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        
-        .action-btns { display: flex; gap: 1rem; }
-        
-        .file-link {
-            padding: 0.8rem 1.5rem;
-            border-radius: 0.8rem;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-            transition: 0.3s;
-        }
-
-        .file-link:hover { background: var(--primary); color: white; }
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent;}
-        .btn-solucion:hover { background: var(--accent); color: white; }
-
-        .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
-        .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
-
-        @media (max-width: 768px) {
-            .week-item { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-            .action-btns { width: 100%; flex-direction: column; }
-        }
+        /* Banner Mamá */
+        .admin-msg { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); padding: 15px; border-radius: 1rem; margin-bottom: 20px; color: var(--accent); font-weight: 600; text-align: center; }
+        /* Toast Hermano */
+        #toast { position: fixed; bottom: 20px; right: 20px; background: var(--primary); padding: 15px; border-radius: 10px; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        /* Estilos Base */
+        #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        input { width: 100%; padding: 1rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; margin: 1rem 0; }
+        .btn-primary { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        header { padding: 1rem 5%; background: rgba(15, 23, 42, 0.8); display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+        .curso-card { background: var(--card-bg); padding: 2rem; border-radius: 1rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 200; }
+        .modal-content { background: #1e293b; width: 90%; max-width: 800px; height: 80vh; border-radius: 2rem; display: flex; flex-direction: column; }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; }
+        .week-item { background: rgba(255,255,255,0.03); padding: 1rem; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .locked { opacity: 0.3; pointer-events: none; }
+        .file-link { padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; background: rgba(255,255,255,0.1); color: white; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
-    <div id="notification-banner" class="hidden"></div>
-    <div id="toast-container"></div>
-
+    <div id="toast" class="hidden"></div>
     <section id="view-login">
-        <div class="login-card">
-            <h1>ACADEMY</h1>
-            <p style="color:var(--text-dim)">Ingresa a tu plataforma de aprendizaje</p>
-            <div class="input-group">
-                <input type="password" id="pass" placeholder="Código de acceso">
-            </div>
-            <button class="btn-primary" onclick="initApp()">ACCEDER AHORA</button>
-        </div>
+        <div class="login-card"><h1>ACADEMY</h1><input type="password" id="pass" placeholder="Código"><button class="btn-primary" onclick="initApp()">ENTRAR</button></div>
     </section>
-
     <section id="view-app" class="hidden">
-        <header>
-            <div class="nav-info">
-                <div style="font-weight: 800; font-size: 1.4rem;">ACADEMY <span style="color:var(--primary)">.</span></div>
-                <div id="role-badge" class="badge">ESTUDIANTE</div>
-            </div>
-            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
-        </header>
-
+        <header><div>ACADEMY <span id="role" style="font-size:0.8rem; background:var(--primary); padding:4px 10px; border-radius:10px;"></span></div><button onclick="location.reload()" style="color:var(--danger); background:none; border:none; cursor:pointer;">SALIR</button></header>
         <div class="container">
-            <h2 class="section-title">Explorar Cursos</h2>
-            <div class="grid-cursos" id="main-grid"></div>
+            <div id="mama-msg" class="admin-msg hidden">💡 Plan del día: Activa 1 curso para hoy. Si termina rápido, puedes activar el siguiente.</div>
+            <div class="grid-cursos" id="grid"></div>
         </div>
     </section>
-
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title" style="font-weight: 800;"></h2>
-                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body"></div>
-        </div>
-    </div>
-
+    <div id="modal" class="modal hidden"><div class="modal-content"><div class="modal-header"><h2 id="m-title"></h2><button onclick="closeM()" style="color:white; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button></div><div class="modal-body" id="m-body"></div></div></div>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
-            authDomain: "educativo-87abb.firebaseapp.com",
-            databaseURL: "https://educativo-87abb-default-rtdb.firebaseio.com",
-            projectId: "educativo-87abb",
-            storageBucket: "educativo-87abb.firebasestorage.app",
-            messagingSenderId: "762088181200",
-            appId: "1:762088181200:web:f4b871149479649405bdd5"
-        };
-
-        firebase.initializeApp(firebaseConfig);
+        const config = { databaseURL: "https://educativo-87abb-default-rtdb.firebaseio.com" }; // Simplificado para el ejemplo
+        firebase.initializeApp({apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A", authDomain: "educativo-87abb.firebaseapp.com", databaseURL: "https://educativo-87abb-default-rtdb.firebaseio.com", projectId: "educativo-87abb", storageBucket: "educativo-87abb.firebasestorage.app", messagingSenderId: "762088181200", appId: "1:762088181200:web:f4b871149479649405bdd5"});
         const db = firebase.database();
-
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA", "SIMULACROS", "DOMICILIARIAS", "TEMARIO"];
-        let ES_MAMA = false;
-        let DATA_CONTROL = {};
+        let ES_MAMA = false, DATA = {};
 
-        // Escuchar permisos
-        db.ref('permisos').on('value', (snap) => {
-            DATA_CONTROL = snap.val() || {};
-            const tituloModal = document.getElementById('modal-title').innerText;
-            if(tituloModal) renderSemanas(tituloModal); 
+        db.ref('permisos').on('value', s => { DATA = s.val() || {}; if(document.getElementById('m-title').innerText) renderS(document.getElementById('m-title').innerText); });
+        db.ref('notificaciones').on('value', s => { 
+            const d = s.val(); if(!d || ES_MAMA) return;
+            const t = document.getElementById('toast'); t.innerText = `NUEVO: ${d.curso} S${d.semana}`; t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 5000);
         });
 
-        // --- LÓGICA DE NOTIFICACIONES EN TIEMPO REAL ---
-        db.ref('notificaciones').on('value', (snap) => {
-            const data = snap.val();
-            if(!data) return;
-
-            const banner = document.getElementById('notification-banner');
-            const toastContainer = document.getElementById('toast-container');
-
-            if(ES_MAMA) {
-                // Notificación para la Mamá
-                banner.classList.remove('hidden');
-                banner.style.background = "#f59e0b"; // Naranja advertencia
-                banner.innerHTML = `⚠️ ATENCIÓN: El curso ${data.curso} (Semana ${data.semana}) requiere revisión.`;
-            } else {
-                // Notificación para el Hermano (Estudiante)
-                if(data.tipo === "DESBLOQUEO") {
-                    toastContainer.innerHTML = `
-                        <div class="toast-notif">
-                            <span style="font-weight:800; color:var(--accent);">📘 ¡NUEVO CURSO DISPONIBLE!</span>
-                            <span style="font-size:0.9rem;">Tienes pendiente: <b>${data.curso} - Semana ${data.semana}</b></span>
-                            <button onclick="this.parentElement.remove()" style="background:var(--primary); border:none; color:white; padding:5px; border-radius:5px; cursor:pointer; font-size:0.7rem;">ENTENDIDO</button>
-                        </div>
-                    `;
-                    // Auto-cerrar después de 8 segundos
-                    setTimeout(() => { if(toastContainer.firstChild) toastContainer.firstChild.remove(); }, 8000);
-                }
-            }
-        });
-
-        async function initApp() {
+        function initApp() {
             const p = document.getElementById('pass').value;
             if(p === "MAMA2026" || p === "ESTUDIANTE01") {
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = ES_MAMA ? "MODO ADMINISTRADOR" : "MODO ESTUDIANTE";
-                if(ES_MAMA) document.getElementById('role-badge').style.background = "#10b981";
-                renderCursos();
-            } else { alert("Código inválido"); }
-        }
-
-        function renderCursos() {
-            const grid = document.getElementById('main-grid');
-            grid.innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')">
-                    <h3>${c}</h3>
-                    <p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">40 SEMANAS DISPONIBLES</p>
-                </div>
-            `).join('');
-        }
-
-        function openModal(nombreCurso) {
-            document.getElementById('modal-title').innerText = nombreCurso;
-            document.getElementById('modal').classList.remove('hidden');
-            renderSemanas(nombreCurso);
-        }
-
-        function renderSemanas(nombreCurso) {
-            const body = document.getElementById('modal-body');
-            let html = "";
-            for(let i=1; i<=40; i++) {
-                let n = i < 10 ? "0"+i : i;
-                let idSemana = `${nombreCurso}_S${i}`;
-                let desbloqueada = DATA_CONTROL[idSemana] || false;
-                let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
-                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`;
-                let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
-
-                html += `
-                    <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
-                        <div>
-                            <div class="week-name">
-                                SEMANA ${n} 
-                                ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
-                            </div>
-                        </div>
-                        <div class="action-btns">
-                            <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
-                            <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
-                            ${ES_MAMA ? `
-                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
-                                    ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
-                                </button>` : ''}
-                        </div>
-                    </div>
-                `;
+                document.getElementById('role').innerText = ES_MAMA ? "ADMIN" : "ALUMNO";
+                if(ES_MAMA) document.getElementById('mama-msg').classList.remove('hidden');
+                document.getElementById('grid').innerHTML = CURSOS.map(c => `<div class="curso-card" onclick="openM('${c}')"><h3>${c}</h3></div>`).join('');
             }
-            body.innerHTML = html;
         }
-
-        function toggleSemana(id) {
-            const estadoActual = DATA_CONTROL[id] || false;
-            const nuevoEstado = !estadoActual;
-            db.ref('permisos/' + id).set(nuevoEstado);
-
-            const partes = id.split('_S');
-            const cursoNombre = partes[0];
-            const numeroSemana = partes[1];
-
-            db.ref('notificaciones').set({
-                curso: cursoNombre,
-                semana: parseInt(numeroSemana),
-                tipo: nuevoEstado ? "DESBLOQUEO" : "BLOQUEO",
-                timestamp: Date.now()
-            });
+        function openM(c) { document.getElementById('m-title').innerText = c; document.getElementById('modal').classList.remove('hidden'); renderS(c); }
+        function renderS(c) {
+            let h = "";
+            for(let i=1; i<=40; i++) {
+                const id = `${c}_S${i}`, ok = DATA[id];
+                h += `<div class="week-item ${!ok && !ES_MAMA ? 'locked' : ''}">
+                    <span>S${i} ${ok?'✅':'🔒'}</span>
+                    <div><a href="#" class="file-link">PDF</a>
+                    ${ES_MAMA?`<button onclick="toggle('${id}')" class="file-link">${ok?'CERRAR':'ABRIR'}</button>`:''}</div>
+                </div>`;
+            }
+            document.getElementById('m-body').innerHTML = h;
         }
-
-        function closeModal() { 
-            document.getElementById('modal-title').innerText = "";
-            document.getElementById('modal').classList.add('hidden'); 
+        function toggle(id) {
+            const estado = !DATA[id]; db.ref('permisos/'+id).set(estado);
+            const p = id.split('_S'); db.ref('notificaciones').set({curso: p[0], semana: p[1], tipo: estado?"DESBLOQUEO":"BLOQUEO"});
         }
+        function closeM() { document.getElementById('m-title').innerText = ""; document.getElementById('modal').classList.add('hidden'); }
     </script>
 </body>
 </html>
