@@ -35,6 +35,46 @@
 
         .hidden { display: none !important; }
 
+        /* --- ESTILO DE NOTIFICACIÓN --- */
+        #notificacion-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+
+        .notif-banner {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .btn-notif {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
         /* --- LOGIN SECTION --- */
         #view-login {
             height: 100vh;
@@ -110,7 +150,6 @@
         
         .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
 
-        /* Grid de Cursos */
         .grid-cursos {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -142,7 +181,6 @@
         .curso-card:hover::before { opacity: 1; }
         .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
 
-        /* --- MODAL Y SEMANAS --- */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
@@ -209,6 +247,8 @@
 </head>
 <body>
 
+    <div id="notificacion-area"></div>
+
     <section id="view-login">
         <div class="login-card">
             <h1>ACADEMY</h1>
@@ -265,11 +305,36 @@
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        // Escuchar cambios en tiempo real
+        // Escuchar cambios en permisos
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
             const tituloModal = document.getElementById('modal-title').innerText;
-            if(tituloModal) renderSemanas(tituloModal); // Actualiza si el modal está abierto
+            if(tituloModal) renderSemanas(tituloModal);
+        });
+
+        // LÓGICA DE NOTIFICACIONES EN TIEMPO REAL
+        db.ref('notificaciones').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const area = document.getElementById('notificacion-area');
+            if (!data || !area) { area.innerHTML = ""; return; }
+
+            // Si es para el Hermano (Estudiante)
+            if (!ES_MAMA && data.tipo === "ACTIVADO") {
+                area.innerHTML = `
+                    <div class="notif-banner">
+                        <span>🚀 ¡NUEVO CURSO! Mamá activó: <b>${data.curso} (Semana ${data.semana})</b></span>
+                        <button class="btn-notif" onclick="verCursoDirecto('${data.curso}')">ESTUDIAR AHORA</button>
+                    </div>`;
+            } 
+            
+            // Si es para Mamá (Admin) - Confirmación de envío
+            if (ES_MAMA && data.tipo === "ACTIVADO") {
+                area.innerHTML = `
+                    <div class="notif-banner" style="background: #10b981;">
+                        <span>✅ Notificación enviada a tu hermano: <b>${data.curso} - Sem ${data.semana}</b></span>
+                        <button class="btn-notif" onclick="limpiarNotif()" style="color:#10b981">CERRAR</button>
+                    </div>`;
+            }
         });
 
         async function initApp() {
@@ -309,9 +374,8 @@
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
 
-                // Enlaces
                 let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
-                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`; // Ejemplo dinámico
+                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`;
                 let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
 
                 html += `
@@ -327,7 +391,7 @@
                             <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
                             <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
                             ${ES_MAMA ? `
-                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
+                                <button onclick="toggleSemana('${nombreCurso}', ${i})" class="file-link btn-solucion">
                                     ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
                                 </button>` : ''}
                         </div>
@@ -337,9 +401,34 @@
             body.innerHTML = html;
         }
 
-        function toggleSemana(id) {
+        function toggleSemana(nombreCurso, numeroSemana) {
+            const id = `${nombreCurso}_S${numeroSemana}`;
             const estadoActual = DATA_CONTROL[id] || false;
-            db.ref('permisos/' + id).set(!estadoActual);
+            const nuevoEstado = !estadoActual;
+            
+            // 1. Cambia el permiso
+            db.ref('permisos/' + id).set(nuevoEstado);
+
+            // 2. Si se desbloqueó, enviar notificación
+            if (nuevoEstado) {
+                db.ref('notificaciones').set({
+                    tipo: "ACTIVADO",
+                    curso: nombreCurso,
+                    semana: numeroSemana,
+                    time: Date.now()
+                });
+            } else {
+                limpiarNotif();
+            }
+        }
+
+        function verCursoDirecto(curso) {
+            limpiarNotif();
+            openModal(curso);
+        }
+
+        function limpiarNotif() {
+            db.ref('notificaciones').remove();
         }
 
         function closeModal() { 
