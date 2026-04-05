@@ -31,71 +31,62 @@
         }
         .hidden { display: none !important; }
 
-        /* Estilos de botones de Drive y Mensajes */
-        .btn-drive-mama {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: linear-gradient(135deg, #4285F4, #34A853); color: white;
-            padding: 1.2rem; border-radius: 1rem; text-decoration: none;
-            font-weight: 800; margin-bottom: 2rem; transition: 0.3s;
-        }
+        header { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-        /* Grid y Cards */
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
         .curso-card {
-            background: var(--card-bg); padding: 2rem; border-radius: 1.2rem;
-            text-align: center; cursor: pointer; transition: 0.3s;
+            background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 1.5rem;
+            text-align: center; cursor: pointer; transition: 0.4s;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .curso-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .curso-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2); }
 
-        /* Modal y Semanas */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: #1e293b; width: 100%; max-width: 900px; height: 80vh; border-radius: 2rem; display: flex; flex-direction: column; overflow: hidden; }
-        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 1.5rem; overflow-y: auto; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: #1e293b; width: 100%; max-width: 950px; height: 85vh; border-radius: 2.5rem; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 2rem; overflow-y: auto; }
 
         .week-item {
-            background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 1rem;
-            margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255,255,255,0.03); border-radius: 1.2rem; padding: 1.2rem;
+            margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         .week-item.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
         
-        .action-btns { display: flex; gap: 0.5rem; }
+        .action-btns { display: flex; gap: 0.8rem; }
         .file-link {
-            padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none;
-            font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); color: white;
+            padding: 0.7rem 1.2rem; border-radius: 0.8rem; text-decoration: none;
+            font-size: 0.8rem; font-weight: 700; background: rgba(255,255,255,0.08); color: white; transition: 0.3s;
         }
         .file-link:hover { background: var(--primary); }
         .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
-        .btn-control { background: var(--primary); border: none; cursor: pointer; }
+        .btn-control { background: var(--primary) !important; border: none; cursor: pointer; color: white; }
 
-        /* Login */
         #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; text-align: center; width: 400px; }
-        input { width: 100%; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem; border: none; background: #000; color: #fff; }
+        .login-card { background: var(--card-bg); padding: 3.5rem; border-radius: 2.5rem; text-align: center; width: 420px; border: 1px solid rgba(255,255,255,0.1); }
+        input { width: 100%; padding: 1.2rem; margin: 1.5rem 0; border-radius: 1rem; border: none; background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem; text-align: center; }
     </style>
 </head>
 <body>
 
     <section id="view-login">
         <div class="login-card">
-            <h1>ACADEMY</h1>
-            <input type="password" id="pass" placeholder="Código de acceso">
-            <button onclick="initApp()" class="btn-primary" style="width:100%; padding:1rem; cursor:pointer">ENTRAR</button>
+            <h1 style="letter-spacing: 2px; margin-bottom: 10px;">ACADEMY</h1>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">Ingrese su código de acceso</p>
+            <input type="password" id="pass" placeholder="••••••••">
+            <button onclick="initApp()" class="btn-control" style="width:100%; padding:1.2rem; border-radius:1rem; font-weight:800;">ENTRAR AL SISTEMA</button>
         </div>
     </section>
 
     <section id="view-app" class="hidden">
-        <header style="padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5);">
-            <div style="font-weight: 800;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 4px 10px; border-radius: 10px;"></span></div>
-            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
+        <header>
+            <div style="font-weight: 800; font-size: 1.2rem;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 5px 12px; border-radius: 20px; margin-left: 10px;"></span></div>
+            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer;">SALIR</button>
         </header>
 
         <div class="container">
-            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS" target="_blank" class="btn-drive-mama hidden">
-                ABRIR CARPETA DE GOOGLE DRIVE
-            </a>
+            <h2 style="margin-bottom: 2rem;">Cursos Disponibles</h2>
             <div id="main-grid" class="grid-cursos"></div>
         </div>
     </section>
@@ -104,14 +95,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modal-title"></h2>
-                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2rem; cursor:pointer;">&times;</button>
+                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2.5rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
     <script>
-        // --- FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
             authDomain: "educativo-87abb.firebaseapp.com",
@@ -123,21 +113,12 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- BASE DE DATOS DE ENLACES ---
-        // Pega AQUÍ el JSON que te dio el Apps Script
-        const DB_ENLACES = {
-            "LITERATURA": {
-                "literatura-1-40-anual-2024.pdf": "https://drive.google.com/file/d/1ObEOsk7X9GmvLOJXwJbfU5NQKeUPHjPV/view?usp=drivesdk",
-                "literatura-dirigidas-1-40.pdf": "https://drive.google.com/file/d/1rtmnlugDz6r-2p3yE4qcbj01p5oYdDXI/view?usp=drivesdk"
-            },
-            "1": {
-                "Temario Álgebra.pdf": "https://drive.google.com/file/d/1c-Yt0dP2RXVcwgw_TqD8ifZFAkvCyEcy/view?usp=drivesdk"
-            }
-            // ... sigue pegando aquí el resto
-        };
-
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
-        const SIGLAS = { "ALGEBRA": "AL", "FISICA": "FI", "QUIMICA": "QU", "LITERATURA": "LI", "BIOLOGIA": "BI" };
+        
+        // IDs de carpetas (Actualiza aquí conforme renombres más cursos)
+        const FOLDER_IDS = {
+            "ALGEBRA": "17GXptURjIEOLTb9ML5XBTwUa82njbj_3"
+        };
 
         let ES_MAMA = false;
         let DATA_CONTROL = {};
@@ -154,15 +135,16 @@
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = ES_MAMA ? "ADMIN" : "ESTUDIANTE";
-                if(ES_MAMA) document.getElementById('btn-drive-admin').classList.remove('hidden');
+                document.getElementById('role-badge').innerText = ES_MAMA ? "ADMINISTRADOR" : "ESTUDIANTE";
                 renderCursos();
-            } else { alert("Error"); }
+            } else { alert("Código de acceso incorrecto"); }
         }
 
         function renderCursos() {
             document.getElementById('main-grid').innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>
+                <div class="curso-card" onclick="openModal('${c}')">
+                    <h3 style="font-size: 1rem; letter-spacing: 1px;">${c}</h3>
+                </div>
             `).join('');
         }
 
@@ -175,33 +157,38 @@
         function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
-            let s = SIGLAS[curso] || curso.substring(0,2).toUpperCase();
+            const folderId = FOLDER_IDS[curso] || "";
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
-                let n3 = i < 10 ? "00" + i : "0" + i;
                 let id = `${curso}_S${i}`;
-                let lock = DATA_CONTROL[id] || false;
+                let desbloqueada = DATA_CONTROL[id] || false;
 
-                // Definición de nombres para buscar en el JSON
-                let nameT = `ASM-TS${n3}-${s}.pdf`;
-                let nameP = `${s}_ASM_Dir_Sem${n}.pdf`;
-                let nameS = `RES_Sem${n}.pdf`;
+                let linkT, linkP, linkR;
 
-                // PRIORIDAD: 1. Link Directo de la DB | 2. Buscador de Drive (Respaldo)
-                let linkT = DB_ENLACES[curso]?.[nameT] || `https://drive.google.com/drive/search?q=${nameT}`;
-                let linkP = DB_ENLACES[curso]?.[nameP] || `https://drive.google.com/drive/search?q=${nameP}`;
-                let linkS = DB_ENLACES[curso]?.[nameS] || `https://drive.google.com/drive/search?q=${nameS}`;
+                if (folderId !== "") {
+                    // SI LA CARPETA ESTÁ REGISTRADA (Como Álgebra), busca por nombre limpio
+                    linkT = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - TEORIA"`;
+                    linkP = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - PRACTICA"`;
+                    linkR = `https://drive.google.com/drive/search?q=parent:${folderId} "SEM ${n} - RESOLUCION"`;
+                } else {
+                    // SI NO TIENE ID, hace una búsqueda general por nombre de curso
+                    linkT = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Teoria"`;
+                    linkP = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Practica"`;
+                    linkR = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "RES"`;
+                }
 
                 html += `
-                <div class="week-item ${!lock && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:bold">SEMANA ${n}</div>
+                <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
+                    <div style="font-weight:800; color:var(--text-main)">SEMANA ${n}</div>
                     <div class="action-btns">
                         <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
                         <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
                         ${ES_MAMA ? `
-                            <a href="${linkS}" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>
-                            <button onclick="toggle('${id}')" class="file-link btn-control">${lock ? 'BLOQUEAR' : 'ACTIVAR'}</button>
+                            <a href="${linkR}" target="_blank" class="file-link btn-solucion">RESOLUCIÓN</a>
+                            <button onclick="toggle('${id}')" class="file-link btn-control">
+                                ${desbloqueada ? 'BLOQUEAR' : 'ACTIVAR'}
+                            </button>
                         ` : ''}
                     </div>
                 </div>`;
