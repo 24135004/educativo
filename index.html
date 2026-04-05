@@ -3,87 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA ACADÉMICO | INTRANET</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <title>ACADEMY INTRANET</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
     <style>
-        :root {
-            --primary: #6366f1;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --danger: #ff4757;
-            --accent: #10b981;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
-            color: var(--text-main);
-            min-height: 100vh;
-        }
+        :root { --primary: #6366f1; --bg: #0f172a; --card: rgba(30, 41, 59, 0.7); --text: #f8fafc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
         .hidden { display: none !important; }
-
-        /* Login */
+        
         #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; text-align: center; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); }
-        input { width: 100%; padding: 1rem; margin: 1.5rem 0; border-radius: 1rem; border: none; background: rgba(0,0,0,0.3); color: #fff; text-align: center; font-size: 1.2rem; }
+        .login-card { background: var(--card); padding: 3rem; border-radius: 2rem; text-align: center; width: 350px; border: 1px solid rgba(255,255,255,0.1); }
+        input { width: 100%; padding: 1rem; margin: 1rem 0; border-radius: 0.8rem; border: none; background: #000; color: #fff; text-align: center; }
         
-        /* App */
-        header { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
-        .curso-card { background: var(--card-bg); padding: 2rem 1rem; border-radius: 1.2rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .curso-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-
-        /* Modal */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: #1e293b; width: 100%; max-width: 900px; height: 85vh; border-radius: 2rem; display: flex; flex-direction: column; overflow: hidden; }
-        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        header { padding: 1rem 5%; background: rgba(0,0,0,0.5); display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+        .card { background: var(--card); padding: 2rem; border-radius: 1rem; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: #1e293b; width: 95%; max-width: 800px; height: 85vh; border-radius: 1.5rem; display: flex; flex-direction: column; }
         .modal-body { padding: 1.5rem; overflow-y: auto; }
-
-        .week-item { background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 1rem; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between; }
-        .week-item.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
-        
-        .action-btns { display: flex; gap: 0.5rem; }
-        .file-link { padding: 0.6rem 1rem; border-radius: 0.7rem; text-decoration: none; font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); color: white; }
-        .btn-control { background: var(--primary); border: none; cursor: pointer; color: white; }
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
+        .week { background: rgba(255,255,255,0.03); padding: 1rem; margin-bottom: 0.5rem; border-radius: 0.8rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
+        .week.locked { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
+        .btns { display: flex; gap: 0.5rem; }
+        .link { padding: 0.6rem 1rem; background: var(--primary); color: #fff; text-decoration: none; border-radius: 0.5rem; font-size: 0.75rem; font-weight: bold; }
+        .btn-admin { background: #f59e0b; border: none; cursor: pointer; color: white; padding: 0.6rem 1rem; border-radius: 0.5rem; font-weight: bold; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
     <section id="view-login">
         <div class="login-card">
-            <h1>ACADEMY</h1>
-            <input type="password" id="pass" placeholder="••••••••">
-            <button onclick="initApp()" class="btn-control" style="width:100%; padding:1rem; border-radius:1rem; font-weight:800; cursor:pointer;">ENTRAR</button>
+            <h1 style="margin-bottom:1rem">ACADEMY</h1>
+            <input type="password" id="pass" placeholder="Código de acceso">
+            <button class="link" style="width:100%; border:none; cursor:pointer; padding:1rem" onclick="login()">ENTRAR</button>
         </div>
     </section>
 
     <section id="view-app" class="hidden">
         <header>
-            <div style="font-weight: 800;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 4px 10px; border-radius: 10px; margin-left: 5px;"></span></div>
-            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; cursor: pointer; font-weight: bold;">SALIR</button>
+            <div style="font-weight: 800;">ACADEMY <span id="badge" style="background:var(--primary); padding:2px 8px; border-radius:5px; font-size:0.6rem; margin-left:10px"></span></div>
+            <button onclick="location.reload()" style="background:none; border:none; color:#ff4757; cursor:pointer; font-weight:bold">SALIR</button>
         </header>
-        <div class="container">
-            <div id="main-grid" class="grid-cursos"></div>
-        </div>
+        <div class="container"><div id="grid" class="grid"></div></div>
     </section>
 
     <div id="modal" class="modal hidden">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title"></h2>
-                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2rem; cursor:pointer;">&times;</button>
+            <div style="padding:1.5rem; display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1);">
+                <h2 id="m-title"></h2>
+                <button onclick="closeM()" style="background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;">&times;</button>
             </div>
-            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-body" id="m-body"></div>
         </div>
     </div>
 
@@ -99,85 +74,76 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
-        const folderIdAlgebra = "17GXptURjIEOLTb9ML5XBTwUa82njbj_3";
-
+        const CURSOS = ["ALGEBRA", "ARITMETICA", "FISICA", "QUIMICA", "BIOLOGIA", "LITERATURA", "HISTORIA"];
+        const ID_ALGEBRA = "17GXptURjIEOLTb9ML5XBTwUa82njbj_3"; // Carpeta con nombres limpios
+        
         let ES_MAMA = false;
-        let DATA_CONTROL = {};
+        let CONTROL = {};
 
-        db.ref('permisos').on('value', snap => {
-            DATA_CONTROL = snap.val() || {};
-            const activeModal = document.getElementById('modal-title').innerText;
-            if(activeModal) renderSemanas(activeModal);
+        // Escucha cambios en Firebase para bloquear/desbloquear en tiempo real
+        db.ref('permisos').on('value', s => { 
+            CONTROL = s.val() || {}; 
+            const active = document.getElementById('m-title').innerText;
+            if(active) renderSemanas(active);
         });
 
-        function initApp() {
+        function login() {
             const p = document.getElementById('pass').value;
             if(p === "MAMA2026" || p === "ESTUDIANTE01") {
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = ES_MAMA ? "ADMIN" : "ALUMNO";
+                document.getElementById('badge').innerText = ES_MAMA ? "ADMIN" : "ALUMNO";
                 renderCursos();
-            } else { alert("Código incorrecto"); }
+            } else { alert("Acceso denegado"); }
         }
 
         function renderCursos() {
-            document.getElementById('main-grid').innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>
+            document.getElementById('grid').innerHTML = CURSOS.map(c => `
+                <div class="card" onclick="openM('${c}')"><h3>${c}</h3></div>
             `).join('');
         }
 
-        function openModal(c) {
-            document.getElementById('modal-title').innerText = c;
+        function openM(c) {
+            document.getElementById('m-title').innerText = c;
             document.getElementById('modal').classList.remove('hidden');
             renderSemanas(c);
         }
 
-        function renderSemanas(curso) {
-            const body = document.getElementById('modal-body');
-            let html = "";
-
+        function renderSemanas(c) {
+            let h = "";
             for(let i=1; i<=40; i++) {
-                let n = i < 10 ? "0" + i : i;
-                let id = `${curso}_S${i}`;
-                let desbloqueada = DATA_CONTROL[id] || false;
-                let linkT, linkP, linkR;
+                let n = i < 10 ? "0"+i : i;
+                let id = c + "_S" + i;
+                let lock = CONTROL[id] || false;
+                
+                // LINK DIRECTO: Usa el motor de búsqueda interno de la carpeta
+                // Esto fuerza a Drive a mostrarte el archivo renombrado SEM XX - TIPO
+                let base = `https://drive.google.com/drive/folders/${ID_ALGEBRA}?q=`;
+                let linkT = base + encodeURIComponent(`"SEM ${n} - TEORIA"`);
+                let linkP = base + encodeURIComponent(`"SEM ${n} - PRACTICA"`);
 
-                if (curso === "ALGEBRA") {
-                    linkT = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - TEORIA"`;
-                    linkP = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - PRACTICA"`;
-                    linkR = `https://drive.google.com/drive/search?q=parent:${folderIdAlgebra} "SEM ${n} - RESOLUCION"`;
-                } else {
-                    linkT = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Teoria"`;
-                    linkP = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "Practica"`;
-                    linkR = `https://drive.google.com/drive/search?q="${curso}" "Semana ${n}" "RES"`;
-                }
-
-                html += `
-                <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:bold;">SEMANA ${n}</div>
-                    <div class="action-btns">
-                        <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
-                        <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
-                        ${ES_MAMA ? `
-                            <a href="${linkR}" target="_blank" class="file-link btn-solucion">RES</a>
-                            <button onclick="toggle('${id}')" class="file-link btn-control">${desbloqueada ? 'LOCK' : 'OPEN'}</button>
-                        ` : ''}
+                h += `
+                <div class="week ${!lock && !ES_MAMA ? 'locked' : ''}">
+                    <span style="font-weight:bold">SEMANA ${n}</span>
+                    <div class="btns">
+                        <a href="${linkT}" target="_blank" class="link">TEORÍA</a>
+                        <a href="${linkP}" target="_blank" class="link">PRÁCTICA</a>
+                        ${ES_MAMA ? `<button onclick="toggle('${id}')" class="btn-admin">${lock ? 'BLOQUEAR' : 'ACTIVAR'}</button>` : ''}
                     </div>
                 </div>`;
             }
-            body.innerHTML = html;
+            document.getElementById('m-body').innerHTML = h;
         }
 
         function toggle(id) {
-            const current = DATA_CONTROL[id] || false;
-            db.ref('permisos/' + id).set(!current);
+            const ref = db.ref('permisos/' + id);
+            ref.set(!(CONTROL[id] || false));
         }
 
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
-            document.getElementById('modal-title').innerText = "";
+        function closeM() { 
+            document.getElementById('modal').classList.add('hidden'); 
+            document.getElementById('m-title').innerText = "";
         }
     </script>
 </body>
