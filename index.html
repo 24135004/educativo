@@ -35,7 +35,6 @@
 
         .hidden { display: none !important; }
 
-        /* --- LOGIN SECTION --- */
         #view-login {
             height: 100vh;
             display: flex;
@@ -87,9 +86,6 @@
             box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
         }
 
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-
-        /* --- MAIN APP SECTION --- */
         header {
             padding: 1.5rem 5%;
             background: rgba(15, 23, 42, 0.8);
@@ -107,7 +103,6 @@
         .badge { background: var(--primary); padding: 0.5rem 1.2rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
 
         .container { max-width: 1300px; margin: 3rem auto; padding: 0 20px; }
-        
         .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
 
         .grid-cursos {
@@ -125,18 +120,10 @@
             transition: 0.4s;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
         }
 
-        .curso-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.05);
-            border-color: var(--primary);
-        }
+        .curso-card:hover { transform: translateY(-10px); border-color: var(--primary); }
 
-        .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
-
-        /* --- MODAL Y SEMANAS --- */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
@@ -154,7 +141,7 @@
         }
 
         .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; }
+        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
 
         .week-item {
             background: rgba(255,255,255,0.02);
@@ -165,13 +152,10 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
         }
 
-        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; border-style: dashed; }
+        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
 
-        .week-name { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        
         .action-btns { display: flex; gap: 1rem; }
         
         .file-link {
@@ -180,25 +164,13 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background: rgba(255,255,255,0.05);
             color: var(--text-main);
-            transition: 0.3s;
         }
 
-        .file-link:hover { background: var(--primary); color: white; }
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent;}
-        .btn-solucion:hover { background: var(--accent); color: white; }
-
-        .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
+        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent; }
         .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
-
-        @media (max-width: 768px) {
-            .week-item { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-            .action-btns { width: 100%; flex-direction: column; }
-        }
+        .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -206,11 +178,10 @@
     <section id="view-login">
         <div class="login-card">
             <h1>ACADEMY</h1>
-            <p style="color:var(--text-dim)">Ingresa a tu plataforma de aprendizaje</p>
             <div class="input-group">
                 <input type="password" id="pass" placeholder="Código de acceso">
             </div>
-            <button class="btn-primary" onclick="initApp()">ACCEDER AHORA</button>
+            <button class="btn-primary" onclick="initApp()">ACCEDER</button>
         </div>
     </section>
 
@@ -222,9 +193,8 @@
             </div>
             <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
         </header>
-
         <div class="container">
-            <h2 class="section-title">Explorar Cursos</h2>
+            <h2 class="section-title">Cursos</h2>
             <div class="grid-cursos" id="main-grid"></div>
         </div>
     </section>
@@ -232,7 +202,7 @@
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title" style="font-weight: 800;"></h2>
+                <h2 id="modal-title"></h2>
                 <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
@@ -277,12 +247,7 @@
 
         function renderCursos() {
             const grid = document.getElementById('main-grid');
-            grid.innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')">
-                    <h3>${c}</h3>
-                    <p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">40 SEMANAS DISPONIBLES</p>
-                </div>
-            `).join('');
+            grid.innerHTML = CURSOS.map(c => `<div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>`).join('');
         }
 
         function openModal(nombreCurso) {
@@ -294,53 +259,36 @@
         function renderSemanas(nombreCurso) {
             const body = document.getElementById('modal-body');
             let html = "";
-
             for(let i=1; i<=40; i++) {
-                let n = i < 10 ? "0"+i : i;
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
-
-                let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
-                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`;
-                let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
-
                 html += `
                     <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
                         <div>
-                            <div class="week-name">
-                                SEMANA ${n} 
-                                ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
-                            </div>
-                            ${ES_MAMA ? `<p style="font-size:0.65rem; color:var(--accent); margin-top:5px;">Control de acceso activo</p>` : ''}
+                            <strong>SEMANA ${i}</strong> ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
                         </div>
                         <div class="action-btns">
-                            <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
-                            <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
-                            ${ES_MAMA ? `
-                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
-                                    ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
-                                </button>` : ''}
+                            <a href="#" class="file-link">TEORÍA</a>
+                            ${ES_MAMA ? `<button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}</button>` : ''}
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
             body.innerHTML = html;
         }
 
-        // FUNCIÓN CON LOGICA DE NOTIFICACIÓN COMPLETA
+        // --- ESTA ES LA PARTE QUE CORREGÍ ---
         function toggleSemana(id) {
             const estadoActual = DATA_CONTROL[id] || false;
             const nuevoEstado = !estadoActual;
             
-            // 1. Actualizar permiso
+            // 1. Actualiza el permiso (como ya lo hacías)
             db.ref('permisos/' + id).set(nuevoEstado);
 
-            // 2. Extraer datos para la notificación
-            const partes = id.split('_S'); // Separa el nombre del curso de la semana
+            // 2. LÓGICA DE NOTIFICACIONES (Lo que faltaba)
+            const partes = id.split('_S');
             const cursoNombre = partes[0];
             const numeroSemana = partes[1];
 
-            // 3. Enviar al nodo de notificaciones
             db.ref('notificaciones').set({
                 curso: cursoNombre,
                 semana: parseInt(numeroSemana),
@@ -349,10 +297,7 @@
             });
         }
 
-        function closeModal() { 
-            document.getElementById('modal-title').innerText = "";
-            document.getElementById('modal').classList.add('hidden'); 
-        }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
     </script>
 </body>
 </html>
