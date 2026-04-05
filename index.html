@@ -3,199 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Educativa Familiar</title>
+    <title>Intranet Educativa Familiar</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #e2e8f0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Sección de Login */
-        .login-container {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-container h2 { color: var(--dark); margin-bottom: 1.5rem; }
-
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input[type="password"]:focus { border-color: var(--primary); }
-
-        .btn-login {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            transition: transform 0.2s;
-        }
-
-        .btn-login:hover { transform: translateY(-2px); background: #1d4ed8; }
-
-        /* Panel Principal */
-        #main-panel {
-            display: none;
-            width: 90%;
-            max-width: 1200px;
-            text-align: center;
-        }
-
-        .welcome-text { color: var(--dark); margin-bottom: 2rem; font-size: 1.5rem; }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            justify-content: center;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 1px solid #f1f5f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .icon { font-size: 3rem; margin-bottom: 1rem; }
-
-        .card h3 { margin: 10px 0; color: var(--dark); }
-        .card p { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; }
-
-        .btn-open {
-            background: #f1f5f9;
-            color: var(--dark);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .card:hover .btn-open { background: var(--primary); color: white; }
+        :root { --primary: #2563eb; --secondary: #10b981; --dark: #1e293b; --bg: #f1f5f9; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         
-        .card.mama-only:hover .btn-open { background: var(--secondary); }
-
-        .logout { margin-top: 3rem; cursor: pointer; color: #94a3b8; text-decoration: underline; }
-
+        .container { width: 100%; max-width: 1000px; padding: 20px; text-align: center; }
         .hidden { display: none !important; }
+
+        /* Login */
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 100px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .btn-principal { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; }
+
+        /* Panel de Contenido */
+        .grid-modulos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .modulo { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; }
+        .modulo h3 { border-bottom: 2px solid var(--bg); padding-bottom: 10px; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+
+        /* Estilo de los Items (Materiales) */
+        .item-material { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 15px; transition: 0.3s; }
+        .item-material:hover { border-color: var(--primary); transform: scale(1.02); }
+        .tag-curso { font-size: 0.7rem; font-weight: bold; color: var(--primary); text-transform: uppercase; }
+        .mensaje-fijado { background: #fff3cd; color: #856404; padding: 8px; border-radius: 5px; font-size: 0.85rem; margin: 10px 0; border-left: 4px solid #ffeeba; }
+        .btn-descarga { display: inline-block; background: var(--dark); color: white; text-decoration: none; padding: 8px 15px; border-radius: 6px; font-size: 0.85rem; margin-top: 5px; }
+        
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logout { color: #ef4444; cursor: pointer; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="login-container">
-        <h2>Ingreso a Intranet</h2>
-        <input type="password" id="passCode" placeholder="Código de acceso">
-        <button onclick="validateAccess()" class="btn-login">Acceder</button>
-        <p id="error" style="color: #ef4444; font-size: 0.8rem; margin-top: 10px; display: none;">Código incorrecto</p>
-    </div>
-
-    <div id="main-panel">
-        <h2 class="welcome-text" id="welcomeMsg"></h2>
-        
-        <div class="grid-container">
-            <div class="card" onclick="window.open('https://github.com/24135004/educativo/tree/main/DIAPOSITIVAS', '_blank')">
-                <div class="icon">📁</div>
-                <h3>Diapositivas</h3>
-                <p>Material de teoría para repasar las clases de Aritmética.</p>
-                <span class="btn-open">Abrir Carpeta</span>
-            </div>
-
-            <div class="card" onclick="window.open('https://github.com/24135004/educativo/tree/main/DIRIGIDAS', '_blank')">
-                <div class="icon">📝</div>
-                <h3>Prácticas Dirigidas</h3>
-                <p>Ejercicios para imprimir y resolver en casa.</p>
-                <span class="btn-open">Abrir Carpeta</span>
-            </div>
-
-            <div id="mama-card" class="card mama-only hidden" onclick="window.open('https://github.com/24135004/educativo/tree/main/RESOLUCIONES', '_blank')">
-                <div class="icon">✅</div>
-                <h3>Resoluciones</h3>
-                <p>Solo personal autorizado. Guía de respuestas oficiales.</p>
-                <span class="btn-open" style="border: 2px solid var(--secondary);">Panel de Control</span>
-            </div>
+    <div class="container">
+        <div id="section-login" class="login-card">
+            <h2 style="margin-top:0">🔐 Acceso Privado</h2>
+            <p>Introduce tu código para ver el material</p>
+            <input type="password" id="input-pass" placeholder="Tu código aquí...">
+            <button class="btn-principal" onclick="validar()">Ingresar</button>
         </div>
 
-        <p class="logout" onclick="location.reload()">Cerrar sesión de forma segura</p>
+        <div id="section-panel" class="hidden">
+            <div class="header-panel">
+                <h2 id="txt-bienvenida"></h2>
+                <span class="logout" onclick="location.reload()">Cerrar Sesión</span>
+            </div>
+
+            <div class="grid-modulos">
+                <div class="modulo">
+                    <h3>📁 Diapositivas</h3>
+                    <div id="lista-diapositivas">Cargando...</div>
+                </div>
+
+                <div class="modulo">
+                    <h3>📝 Prácticas Dirigidas</h3>
+                    <div id="lista-practicas">Cargando...</div>
+                </div>
+
+                <div id="modulo-mama" class="modulo hidden" style="border-top: 5px solid var(--secondary);">
+                    <h3>✅ Resoluciones (Profesor)</h3>
+                    <div id="lista-resoluciones">Cargando...</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function validateAccess() {
-            const pass = document.getElementById('passCode').value;
-            const login = document.getElementById('login-screen');
-            const panel = document.getElementById('main-panel');
-            const mamaCard = document.getElementById('mama-card');
-            const welcome = document.getElementById('welcomeMsg');
+        // FUNCIÓN PARA RENDERIZAR LOS MATERIALES
+        async function cargarDatos(archivo, contenedorId) {
+            const contenedor = document.getElementById(contenedorId);
+            try {
+                const res = await fetch(archivo);
+                const data = await res.json();
+                
+                if (data.length === 0) {
+                    contenedor.innerHTML = "<p style='color:gray'>No hay material nuevo hoy.</p>";
+                    return;
+                }
 
-            // --- CONFIGURA TUS CÓDIGOS AQUÍ ---
+                contenedor.innerHTML = "";
+                // Mostramos de más nuevo a más viejo
+                data.reverse().forEach(info => {
+                    const html = `
+                        <div class="item-material">
+                            <span class="tag-curso">${info.curso}</span>
+                            <div style="font-weight:600; margin: 5px 0;">${info.tema}</div>
+                            <div class="mensaje-fijado">🚩 ${info.mensaje}</div>
+                            <a href="${info.url}" target="_blank" class="btn-descarga">Ver Documento</a>
+                        </div>
+                    `;
+                    contenedor.innerHTML += html;
+                });
+            } catch (err) {
+                contenedor.innerHTML = "Error al cargar archivos.";
+            }
+        }
+
+        function validar() {
+            const pass = document.getElementById('input-pass').value;
             const codMama = "MAMA2026";
             const codHno = "ESTUDIANTE01";
 
             if (pass === codMama) {
-                login.classList.add('hidden');
-                panel.style.display = 'block';
-                mamaCard.classList.remove('hidden');
-                welcome.innerText = "Bienvenida, Administradora";
+                document.getElementById('section-login').classList.add('hidden');
+                document.getElementById('section-panel').classList.remove('hidden');
+                document.getElementById('modulo-mama').classList.remove('hidden');
+                document.getElementById('txt-bienvenida').innerText = "Panel de Control - Mamá";
+                
+                // Carga todo
+                cargarDatos('diapositivas.json', 'lista-diapositivas');
+                cargarDatos('practicas.json', 'lista-practicas');
+                cargarDatos('resoluciones.json', 'lista-resoluciones');
             } 
             else if (pass === codHno) {
-                login.classList.add('hidden');
-                panel.style.display = 'block';
-                mamaCard.classList.add('hidden');
-                welcome.innerText = "Panel de Estudiante";
+                document.getElementById('section-login').classList.add('hidden');
+                document.getElementById('section-panel').classList.remove('hidden');
+                document.getElementById('txt-bienvenida').innerText = "Mis Materiales de Estudio";
+                
+                // Solo carga lo del alumno
+                cargarDatos('diapositivas.json', 'lista-diapositivas');
+                cargarDatos('practicas.json', 'lista-practicas');
             } 
             else {
-                document.getElementById('error').style.display = 'block';
+                alert("Código incorrecto");
             }
         }
-
-        // Permitir entrar con la tecla "Enter"
-        document.getElementById("passCode").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                validateAccess();
-            }
-        });
     </script>
 </body>
 </html>
