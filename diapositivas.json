@@ -1,14 +1,21 @@
 [
-  {
-    "curso": "ARITMÉTICA",
-    "tema": "Semana 1: Razones I",
-    "url": "https://raw.githubusercontent.com/24135004/educativo/main/ARITMETICA%202024%201-40/DIAPOSITIVAS/ASM-TS001-AR.pdf",
-    "mensaje": "🚩 APRENDER PRIMERO: Revisa esta teoría antes de imprimir la práctica."
-  },
-  {
-    "curso": "ARITMÉTICA",
-    "tema": "Semana 2: Razones II",
-    "url": "https://raw.githubusercontent.com/24135004/educativo/main/ARITMETICA%202024%201-40/DIAPOSITIVAS/ASM-TS002-AR.pdf",
-    "mensaje": "Continuación de la semana 1. Enfócate en las propiedades."
-  }
+  { "curso": "ARITMÉTICA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/ARITMETICA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "ÁLGEBRA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/ALGEBRA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "GEOMETRÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/GEOMETRIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "TRIGONOMETRÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/TRIGONOMETRIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "FÍSICA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/FISICA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "QUÍMICA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/QUIMICA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "BIOLOGÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/BIOLOGIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "LENGUAJE", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/LENGUAJE%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "LITERATURA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/LITERATURA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "HISTORIA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/HISTORIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "GEOGRAFÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/GEOGRAFIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "ECONOMÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/ECONOMIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "FILOSOFÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/FILOSOFIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "PSICOLOGÍA", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/PSICOLOGIA%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "RAZ. MATEMÁTICO", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/RAZ.%20MATEMATICO%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "RAZ. VERBAL", "tema": "Diapositivas Anual", "url": "https://github.com/24135004/educativo/tree/main/RAZ.%20VERBAL%202024%201-40/DIAPOSITIVAS", "mensaje": "🚩 Leer antes de clase." },
+  { "curso": "SIMULACROS", "tema": "Carpeta General", "url": "https://github.com/24135004/educativo/tree/main/3%20SIMULACROS", "mensaje": "🚩 Evaluaciones pasadas." },
+  { "curso": "DOMICILIARIAS", "tema": "Carpeta General", "url": "https://github.com/24135004/educativo/tree/main/2%20DOMICILIARIAS", "mensaje": "🚩 Tareas para casa." },
+  { "curso": "TEMARIO", "tema": "Guía de estudios", "url": "https://github.com/24135004/educativo/tree/main/1%20TEMARIO", "mensaje": "🚩 Revisa el orden de los temas." }
 ]
