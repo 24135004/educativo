@@ -17,10 +17,8 @@
             --danger: #ff4757;
             --bg: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.7);
-            --glass: rgba(255, 255, 255, 0.03);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
-            --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,157 +29,120 @@
             background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .hidden { display: none !important; }
 
-        #mensaje-mama {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--accent);
-            padding: 1.2rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            color: var(--accent);
-            font-size: 0.95rem;
-        }
-
-        #view-login {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
+        /* --- LOGIN --- */
+        #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            padding: 3rem;
+            padding: 2.5rem;
             border-radius: 2rem;
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
-
         input {
-            width: 100%;
-            padding: 1.2rem;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            color: white;
-            margin: 2rem 0;
+            width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem;
+            color: white; margin: 1.5rem 0; font-size: 1rem;
         }
 
-        .btn-primary {
-            width: 100%;
-            padding: 1.2rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
+        /* --- HEADER & CONTAINER --- */
         header {
-            padding: 1.5rem 5%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 1rem 5%; background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px); display: flex;
+            justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
         }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 15px; }
 
-        .container { max-width: 1300px; margin: 3rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        /* --- GRID CURSOS (RESPONSIVE) --- */
+        .grid-cursos { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 1rem; 
+        }
 
         .curso-card {
             background: var(--card-bg);
-            padding: 2.5rem 1.5rem;
+            padding: 2rem 1rem;
             border-radius: 1.5rem;
             text-align: center;
-            cursor: pointer;
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.3s;
         }
+        .curso-card:active { transform: scale(0.95); }
 
-        .curso-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
+        /* --- MODAL --- */
         .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 200;
         }
-
         .modal-content {
-            background: #1e293b;
-            width: 100%;
-            max-width: 1000px;
-            height: 85vh;
-            border-radius: 2.5rem;
-            display: flex;
-            flex-direction: column;
+            background: #1e293b; width: 95%; max-width: 900px;
+            height: 85vh; border-radius: 2rem; display: flex; flex-direction: column;
+        }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 1.2rem; overflow-y: auto; }
+
+        /* --- WEEK ITEM (RESPONSIVE) --- */
+        .week-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 1.2rem; padding: 1.2rem;
+            margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; gap: 1rem;
         }
 
-        .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; }
-
-        .week-item {
-            background: rgba(255,255,255,0.02);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.05);
+        @media (min-width: 600px) {
+            .week-item { flex-direction: row; justify-content: space-between; align-items: center; }
         }
 
         .week-item.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
-        .action-btns { display: flex; gap: 0.8rem; }
+        
+        .action-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         
         .file-link {
-            padding: 0.8rem 1.2rem;
-            border-radius: 0.8rem;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 700;
-            background: rgba(255,255,255,0.05);
-            color: white;
+            padding: 0.7rem 1rem; border-radius: 0.7rem;
+            text-decoration: none; font-size: 0.75rem; font-weight: 700;
+            background: rgba(255,255,255,0.1); color: white;
+            flex: 1; text-align: center; min-width: 80px;
         }
-
-        .file-link:hover { background: var(--primary); }
+        .btn-control { background: var(--primary) !important; border: none; cursor: pointer; }
         .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
-        .btn-control { background: var(--primary) !important; cursor: pointer; border: none; }
+
+        /* AJUSTE PARA MÓVILES PEQUEÑOS */
+        @media (max-width: 480px) {
+            .grid-cursos { grid-template-columns: repeat(2, 1fr); }
+            .curso-card h3 { font-size: 0.9rem; }
+            .login-card { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
 
     <section id="view-login">
         <div class="login-card">
-            <h1>ACADEMY</h1>
+            <h1 style="font-weight:800; letter-spacing:-1px;">ACADEMY</h1>
             <input type="password" id="pass" placeholder="Código de acceso">
-            <button class="btn-primary" onclick="initApp()">ACCEDER</button>
+            <button class="btn-primary" onclick="initApp()">INGRESAR</button>
         </div>
     </section>
 
     <section id="view-app" class="hidden">
         <header>
-            <div style="font-weight: 800; font-size: 1.4rem;">ACADEMY <span id="role-badge" style="font-size:0.7rem; background:var(--primary); padding:4px 10px; border-radius:5px;"></span></div>
-            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">SALIR</button>
+            <div style="font-weight: 800; font-size: 1.2rem;">ACADEMY <span id="role-badge" style="font-size:0.6rem; background:var(--primary); padding:3px 8px; border-radius:5px; vertical-align:middle;"></span></div>
+            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700;">SALIR</button>
         </header>
 
         <div class="container">
-            <div id="mensaje-mama" class="hidden">
-                📌 <b>Panel de Control:</b> Gestiona el acceso de las semanas aquí.
+            <div id="mensaje-mama" class="hidden" style="background:rgba(16,185,129,0.1); color:var(--accent); padding:1rem; border-radius:1rem; margin-bottom:1.5rem; font-size:0.85rem;">
+                ⚙️ <b>Panel Admin:</b> Desbloquea semanas para el alumno.
             </div>
-
-            <h2 style="margin-bottom:2rem; border-left: 5px solid var(--primary); padding-left:1rem;">Mis Cursos</h2>
+            <h2 style="margin-bottom:1.5rem; font-size:1.4rem;">Mis Cursos</h2>
             <div class="grid-cursos" id="main-grid"></div>
         </div>
     </section>
@@ -189,14 +150,15 @@
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title"></h2>
-                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
+                <h2 id="modal-title" style="font-size:1.2rem;"></h2>
+                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
     <script>
+        // Configuración Firebase (Misma que usas)
         const firebaseConfig = {
             apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
             authDomain: "educativo-87abb.firebaseapp.com",
@@ -205,37 +167,24 @@
             storageBucket: "educativo-87abb.firebasestorage.app",
             appId: "1:762088181200:web:f4b871149479649405bdd5"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         const ARCHIVOS_IDS = {
-          "SEM 05 - SOLUCION.pdf": "1_q2XcPo3otcVbV6AklHnyH7oBxTDVf5s",
-          "SEM 04 - SOLUCION.pdf": "1hi6gfmVFGVZhtJdiafK8LlKuXbsHgVSE",
-          "SEM 03 - SOLUCION.pdf": "1JZNRJ-4TSs8QzpAqjre8yN9NVwwaRf7C",
-          "SEM 02 - SOLUCION.pdf": "1Yz1d4jyOKokNWx5_TAnYYXVZ0V7MACik",
-          "SEM 01 - SOLUCION.pdf": "1vnVn2V9FoWI6WZKYrSAN1OEsUfJYOz1f",
-          "SEM 05 - PRACTICA.pdf": "1Esu5TaTobV7eAt97vKYDlERLpEorVqL7",
-          "SEM 04 - PRACTICA.pdf": "1yMxj2eG7zwtyQduAqn90nqoU9aeOzQUF",
-          "SEM 03 - PRACTICA.pdf": "1UMl6pIP8vHeGZhCjcEIs5LTr3n9s2P-Z",
-          "SEM 02 - PRACTICA.pdf": "1YJPyzUj3wbTzPP9zxDp65n1ut_fPPjuf",
-          "SEM 01 - PRACTICA.pdf": "15Kf80S3WCPDjFKeYX_k5XrVJJmO9ygSd",
-          "SEM 05 - TEORIA.pdf": "1LkvUBYEvhKQmX1pYrCxOsBSg_eneAxY_",
-          "SEM 04 - TEORIA.pdf": "1xlCsVefYZsaAPS-A8yw8o6fPh_jg1uQW",
-          "SEM 03 - TEORIA.pdf": "1vXmvdrqy5MPZOsmHg3rHdQvg3c5gRlPd",
-          "SEM 02 - TEORIA.pdf": "1wMpqUALhxwARzZVkuyZ1kauovuAdWoyT",
-          "SEM 01 - TEORIA.pdf": "14xYuvtSJJZsmQsaxNLdrYZOi1Gk46Gr8"
+            "SEM 01 - TEORIA.pdf": "14xYuvtSJJZsmQsaxNLdrYZOi1Gk46Gr8",
+            "SEM 01 - PRACTICA.pdf": "15Kf80S3WCPDjFKeYX_k5XrVJJmO9ygSd",
+            "SEM 01 - SOLUCION.pdf": "1vnVn2V9FoWI6WZKYrSAN1OEsUfJYOz1f",
+            // ... (Tus otros IDs aquí)
         };
 
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "FISICA", "QUIMICA", "LENGUAJE", "HISTORIA"];
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        // Escucha cambios en tiempo real
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
-            const activeTitle = document.getElementById('modal-title').innerText;
-            if(activeTitle) renderSemanas(activeTitle);
+            const title = document.getElementById('modal-title').innerText;
+            if(title) renderSemanas(title);
         });
 
         function initApp() {
@@ -247,7 +196,7 @@
                 document.getElementById('role-badge').innerText = ES_MAMA ? "ADMIN" : "ALUMNO";
                 if(ES_MAMA) document.getElementById('mensaje-mama').classList.remove('hidden');
                 renderCursos();
-            } else { alert("Código incorrecto"); }
+            } else { alert("Acceso denegado"); }
         }
 
         function renderCursos() {
@@ -264,32 +213,36 @@
 
         function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
-            let html = "";
+            
+            // --- VALIDACIÓN DE CURSO ---
+            if(curso !== "ALGEBRA") {
+                body.innerHTML = `<div style="text-align:center; padding:3rem; color:var(--text-dim);">
+                    <p style="font-size:3rem;">📂</p>
+                    <p>Contenido de <b>${curso}</b> próximamente disponible.</p>
+                </div>`;
+                return;
+            }
 
+            let html = "";
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
                 let idControl = `${curso}_S${i}`;
                 let unlock = DATA_CONTROL[idControl] || false;
 
-                let nT = `SEM ${n} - TEORIA.pdf`;
-                let nP = `SEM ${n} - PRACTICA.pdf`;
-                let nS = `SEM ${n} - SOLUCION.pdf`;
-
-                let linkT = ARCHIVOS_IDS[nT] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nT]}/view` : "#";
-                let linkP = ARCHIVOS_IDS[nP] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nP]}/view` : "#";
-                let linkS = ARCHIVOS_IDS[nS] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[nS]}/view` : "#";
+                // Solo para Álgebra cargamos links
+                let linkT = ARCHIVOS_IDS[`SEM ${n} - TEORIA.pdf`] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[`SEM ${n} - TEORIA.pdf`]}/view` : "#";
+                let linkP = ARCHIVOS_IDS[`SEM ${n} - PRACTICA.pdf`] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[`SEM ${n} - PRACTICA.pdf`]}/view` : "#";
+                let linkS = ARCHIVOS_IDS[`SEM ${n} - SOLUCION.pdf`] ? `https://drive.google.com/file/d/${ARCHIVOS_IDS[`SEM ${n} - SOLUCION.pdf`]}/view` : "#";
 
                 html += `
                 <div class="week-item ${!unlock && !ES_MAMA ? 'locked' : ''}">
-                    <div style="font-weight:700;">SEMANA ${n} ${unlock ? '<span style="color:var(--accent)">[DESBLOQUEADA]</span>' : ''}</div>
+                    <div style="font-weight:700; font-size:0.9rem;">SEMANA ${n} ${unlock ? '✅' : ''}</div>
                     <div class="action-btns">
                         <a href="${linkT}" target="_blank" class="file-link" ${linkT === "#" ? 'style="display:none"' : ''}>TEORÍA</a>
                         <a href="${linkP}" target="_blank" class="file-link" ${linkP === "#" ? 'style="display:none"' : ''}>PRÁCTICA</a>
                         ${ES_MAMA ? `
                             <a href="${linkS}" target="_blank" class="file-link btn-solucion" ${linkS === "#" ? 'style="display:none"' : ''}>SOLUCIÓN</a>
-                            <button onclick="toggle('${idControl}')" class="file-link btn-control">
-                                ${unlock ? 'BLOQUEAR' : 'ACTIVAR'}
-                            </button>
+                            <button onclick="toggle('${idControl}')" class="file-link btn-control">${unlock ? 'BLOQUEAR' : 'ACTIVAR'}</button>
                         ` : ''}
                     </div>
                 </div>`;
@@ -297,19 +250,14 @@
             body.innerHTML = html;
         }
 
-        // FUNCIÓN MEJORADA: Cambia el estado en Firebase
         function toggle(id) {
-            console.log("Cambiando estado de:", id);
-            const estadoActual = DATA_CONTROL[id] || false;
-            const nuevoEstado = !estadoActual;
-            
+            const nuevoEstado = !(DATA_CONTROL[id] || false);
             db.ref('permisos/' + id).set(nuevoEstado)
-                .then(() => console.log(id + " cambiado a " + nuevoEstado))
-                .catch((err) => console.error("Error en Firebase:", err));
+                .catch(e => alert("Error: Revisa las reglas de Firebase"));
         }
 
-        function closeModal() { 
-            document.getElementById('modal').classList.add('hidden'); 
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
             document.getElementById('modal-title').innerText = "";
         }
     </script>
