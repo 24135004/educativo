@@ -17,162 +17,63 @@
             --danger: #ff4757;
             --bg: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.7);
-            --glass: rgba(255, 255, 255, 0.03);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
-            --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
             background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
         .hidden { display: none !important; }
 
-        /* ESTILO: BOTÓN DRIVE ADMIN */
+        /* Estilos de botones de Drive y Mensajes */
         .btn-drive-mama {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #4285F4, #34A853);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            text-decoration: none;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .btn-drive-mama:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(66, 133, 244, 0.3); }
-
-        #mensaje-mama {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--accent);
-            padding: 1.2rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            color: var(--accent);
-            font-size: 0.95rem;
-            line-height: 1.4;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            background: linear-gradient(135deg, #4285F4, #34A853); color: white;
+            padding: 1.2rem; border-radius: 1rem; text-decoration: none;
+            font-weight: 800; margin-bottom: 2rem; transition: 0.3s;
         }
 
-        #view-login {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            padding: 3rem;
-            border-radius: 2rem;
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .login-card h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        input {
-            width: 100%;
-            padding: 1.2rem;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            color: white;
-            font-size: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 1.2rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        header {
-            padding: 1.5rem 5%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky; top: 0; z-index: 100;
-        }
-
-        .badge { background: var(--primary); padding: 0.5rem 1.2rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 800; }
-
-        .container { max-width: 1300px; margin: 3rem auto; padding: 0 20px; }
-        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-
+        /* Grid y Cards */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
         .curso-card {
-            background: var(--card-bg);
+            background: var(--card-bg); padding: 2rem; border-radius: 1.2rem;
+            text-align: center; cursor: pointer; transition: 0.3s;
             border: 1px solid rgba(255,255,255,0.05);
-            padding: 2.5rem 1.5rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            transition: 0.4s;
-            cursor: pointer;
         }
-        .curso-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .curso-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        /* MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-        .modal-content { background: #1e293b; width: 100%; max-width: 1000px; height: 85vh; border-radius: 2.5rem; display: flex; flex-direction: column; }
-        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
+        /* Modal y Semanas */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: #1e293b; width: 100%; max-width: 900px; height: 80vh; border-radius: 2rem; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; }
 
         .week-item {
-            background: rgba(255,255,255,0.02);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 1rem;
+            margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between;
         }
-
-        .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
-        .action-btns { display: flex; gap: 1rem; }
+        .week-item.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
         
+        .action-btns { display: flex; gap: 0.5rem; }
         .file-link {
-            padding: 0.8rem 1.5rem;
-            border-radius: 0.8rem;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-            transition: 0.3s;
+            padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none;
+            font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); color: white;
         }
-
         .file-link:hover { background: var(--primary); }
         .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
-        .btn-control { background: var(--primary) !important; color: white !important; cursor: pointer; border: none; }
-        
-        .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
+        .btn-control { background: var(--primary); border: none; cursor: pointer; }
+
+        /* Login */
+        #view-login { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: var(--card-bg); padding: 3rem; border-radius: 2rem; text-align: center; width: 400px; }
+        input { width: 100%; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem; border: none; background: #000; color: #fff; }
     </style>
 </head>
 <body>
@@ -180,151 +81,141 @@
     <section id="view-login">
         <div class="login-card">
             <h1>ACADEMY</h1>
-            <p style="color:var(--text-dim)">Ingresa tu código de acceso</p>
-            <input type="password" id="pass" placeholder="Código">
-            <button class="btn-primary" onclick="initApp()">ACCEDER</button>
+            <input type="password" id="pass" placeholder="Código de acceso">
+            <button onclick="initApp()" class="btn-primary" style="width:100%; padding:1rem; cursor:pointer">ENTRAR</button>
         </div>
     </section>
 
     <section id="view-app" class="hidden">
-        <header>
-            <div style="font-weight: 800; font-size: 1.4rem;">ACADEMY <span style="color:var(--primary)">.</span></div>
-            <div id="role-badge" class="badge">ESTUDIANTE</div>
-            <button onclick="location.reload()" style="background:none; border:none; color:var(--danger); font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
+        <header style="padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5);">
+            <div style="font-weight: 800;">ACADEMY <span id="role-badge" style="font-size: 0.7rem; background: var(--primary); padding: 4px 10px; border-radius: 10px;"></span></div>
+            <button onclick="location.reload()" style="color: var(--danger); background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
         </header>
 
         <div class="container">
-            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS?usp=drive_link" target="_blank" class="btn-drive-mama hidden">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" width="24" alt="Drive">
-                ABRIR CARPETA PRINCIPAL EN GOOGLE DRIVE
+            <a id="btn-drive-admin" href="https://drive.google.com/drive/folders/1gN1BBQbWFflu_bs77iLscJofqOg9UkiS" target="_blank" class="btn-drive-mama hidden">
+                ABRIR CARPETA DE GOOGLE DRIVE
             </a>
-
-            <div id="mensaje-mama" class="hidden">
-                📌 <b>Modo Administrador:</b> Desbloquea las semanas según el progreso.
-            </div>
-
-            <h2 class="section-title" style="border-left: 5px solid var(--primary); padding-left: 1rem; margin-bottom: 2rem;">Explorar Cursos</h2>
-            <div class="grid-cursos" id="main-grid"></div>
+            <div id="main-grid" class="grid-cursos"></div>
         </div>
     </section>
 
     <div id="modal" class="modal hidden">
         <div class="modal-content">
-            <div class="modal-header" style="padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                <h2 id="modal-title" style="font-weight: 800;"></h2>
-                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button onclick="closeModal()" style="color:white; background:none; border:none; font-size: 2rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
     <script>
+        // --- FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
             authDomain: "educativo-87abb.firebaseapp.com",
             databaseURL: "https://educativo-87abb-default-rtdb.firebaseio.com",
             projectId: "educativo-87abb",
             storageBucket: "educativo-87abb.firebasestorage.app",
-            messagingSenderId: "762088181200",
             appId: "1:762088181200:web:f4b871149479649405bdd5"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
-        
-        // --- MAPEO DE SIGLAS PARA BÚSQUEDA ---
-        const SIGLAS = {
-            "ALGEBRA": "AL", "ARITMETICA": "AR", "BIOLOGIA": "BI", "ECONOMIA": "EC",
-            "FILOSOFIA": "FL", "FISICA": "FI", "GEOGRAFIA": "GE", "GEOMETRIA": "GM",
-            "HISTORIA": "HI", "LENGUAJE": "LE", "LITERATURA": "LI", "PSICOLOGIA": "PS",
-            "QUIMICA": "QU", "RAZ. MATEMATICO": "RM", "RAZ. VERBAL": "RV", "TRIGONOMETRIA": "TR"
+        // --- BASE DE DATOS DE ENLACES ---
+        // Pega AQUÍ el JSON que te dio el Apps Script
+        const DB_ENLACES = {
+            "LITERATURA": {
+                "literatura-1-40-anual-2024.pdf": "https://drive.google.com/file/d/1ObEOsk7X9GmvLOJXwJbfU5NQKeUPHjPV/view?usp=drivesdk",
+                "literatura-dirigidas-1-40.pdf": "https://drive.google.com/file/d/1rtmnlugDz6r-2p3yE4qcbj01p5oYdDXI/view?usp=drivesdk"
+            },
+            "1": {
+                "Temario Álgebra.pdf": "https://drive.google.com/file/d/1c-Yt0dP2RXVcwgw_TqD8ifZFAkvCyEcy/view?usp=drivesdk"
+            }
+            // ... sigue pegando aquí el resto
         };
+
+        const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA"];
+        const SIGLAS = { "ALGEBRA": "AL", "FISICA": "FI", "QUIMICA": "QU", "LITERATURA": "LI", "BIOLOGIA": "BI" };
 
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        db.ref('permisos').on('value', (snap) => {
+        db.ref('permisos').on('value', snap => {
             DATA_CONTROL = snap.val() || {};
-            const tituloModal = document.getElementById('modal-title').innerText;
-            if(tituloModal) renderSemanas(tituloModal); 
+            const activeModal = document.getElementById('modal-title').innerText;
+            if(activeModal) renderSemanas(activeModal);
         });
 
-        async function initApp() {
+        function initApp() {
             const p = document.getElementById('pass').value;
             if(p === "MAMA2026" || p === "ESTUDIANTE01") {
                 ES_MAMA = (p === "MAMA2026");
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
                 document.getElementById('role-badge').innerText = ES_MAMA ? "ADMIN" : "ESTUDIANTE";
-                
-                if(ES_MAMA) {
-                    document.getElementById('mensaje-mama').classList.remove('hidden');
-                    document.getElementById('btn-drive-admin').classList.remove('hidden');
-                }
+                if(ES_MAMA) document.getElementById('btn-drive-admin').classList.remove('hidden');
                 renderCursos();
-            } else { alert("Acceso denegado"); }
+            } else { alert("Error"); }
         }
 
         function renderCursos() {
-            const grid = document.getElementById('main-grid');
-            grid.innerHTML = CURSOS.map(c => `
-                <div class="curso-card" onclick="openModal('${c}')">
-                    <h3>${c}</h3>
-                    <p style="font-size:0.7rem; color:var(--text-dim); margin-top:10px;">MATERIAL ACADÉMICO ASM</p>
-                </div>
+            document.getElementById('main-grid').innerHTML = CURSOS.map(c => `
+                <div class="curso-card" onclick="openModal('${c}')"><h3>${c}</h3></div>
             `).join('');
         }
 
-        function openModal(nombreCurso) {
-            document.getElementById('modal-title').innerText = nombreCurso;
+        function openModal(c) {
+            document.getElementById('modal-title').innerText = c;
             document.getElementById('modal').classList.remove('hidden');
-            renderSemanas(nombreCurso);
+            renderSemanas(c);
         }
 
-        function renderSemanas(nombreCurso) {
+        function renderSemanas(curso) {
             const body = document.getElementById('modal-body');
             let html = "";
-            let s = SIGLAS[nombreCurso] || nombreCurso.substring(0,2).toUpperCase();
+            let s = SIGLAS[curso] || curso.substring(0,2).toUpperCase();
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0" + i : i;
-                let nTriple = i < 10 ? "00" + i : "0" + i; 
-                let idSemana = `${nombreCurso}_S${i}`;
-                let desbloqueada = DATA_CONTROL[idSemana] || false;
+                let n3 = i < 10 ? "00" + i : "0" + i;
+                let id = `${curso}_S${i}`;
+                let lock = DATA_CONTROL[id] || false;
 
-                // Lógica de búsqueda:
-                let queryT = `"ASM-TS${nTriple}-${s}"`;
-                let queryP = `"${s}_ASM_Dir_Sem${n}"`;
-                let queryS = `"RES_Sem${n}" "${nombreCurso}"`;
+                // Definición de nombres para buscar en el JSON
+                let nameT = `ASM-TS${n3}-${s}.pdf`;
+                let nameP = `${s}_ASM_Dir_Sem${n}.pdf`;
+                let nameS = `RES_Sem${n}.pdf`;
+
+                // PRIORIDAD: 1. Link Directo de la DB | 2. Buscador de Drive (Respaldo)
+                let linkT = DB_ENLACES[curso]?.[nameT] || `https://drive.google.com/drive/search?q=${nameT}`;
+                let linkP = DB_ENLACES[curso]?.[nameP] || `https://drive.google.com/drive/search?q=${nameP}`;
+                let linkS = DB_ENLACES[curso]?.[nameS] || `https://drive.google.com/drive/search?q=${nameS}`;
 
                 html += `
-                    <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
-                        <div style="font-weight:bold">SEMANA ${n} ${desbloqueada ? '<span class="open-badge">LISTO</span>' : ''}</div>
-                        <div class="action-btns">
-                            <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(queryT)}" target="_blank" class="file-link">TEORÍA</a>
-                            <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(queryP)}" target="_blank" class="file-link">PRÁCTICA</a>
-                            ${ES_MAMA ? `
-                                <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(queryS)}" target="_blank" class="file-link btn-solucion">SOLUCIÓN</a>
-                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-control">
-                                    ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
-                                </button>
-                            ` : ''}
-                        </div>
+                <div class="week-item ${!lock && !ES_MAMA ? 'locked' : ''}">
+                    <div style="font-weight:bold">SEMANA ${n}</div>
+                    <div class="action-btns">
+                        <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
+                        <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
+                        ${ES_MAMA ? `
+                            <a href="${linkS}" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>
+                            <button onclick="toggle('${id}')" class="file-link btn-control">${lock ? 'BLOQUEAR' : 'ACTIVAR'}</button>
+                        ` : ''}
                     </div>
-                `;
+                </div>`;
             }
             body.innerHTML = html;
         }
 
-        function toggleSemana(id) {
-            const estado = DATA_CONTROL[id] || false;
-            db.ref('permisos/' + id).set(!estado);
+        function toggle(id) {
+            const current = DATA_CONTROL[id] || false;
+            db.ref('permisos/' + id).set(!current);
         }
 
-        function closeModal() { 
-            document.getElementById('modal').classList.add('hidden'); 
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
             document.getElementById('modal-title').innerText = "";
         }
     </script>
