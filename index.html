@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISTEMA ACADÉMICO | INTRANET</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
     <style>
         :root {
             --primary: #6366f1;
@@ -191,7 +195,7 @@
         }
 
         .file-link:hover { background: var(--primary); color: white; }
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
+        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; }
         .btn-solucion:hover { background: var(--accent); color: white; }
 
         .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
@@ -237,36 +241,47 @@
                 <h2 id="modal-title" style="font-weight: 800;"></h2>
                 <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
             </div>
-            <div class="modal-body" id="modal-body">
-                </div>
+            <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
     <script>
+        // CONFIGURACIÓN FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
+            authDomain: "educativo-87abb.firebaseapp.com",
+            databaseURL: "https://educativo-87abb-default-rtdb.firebaseio.com",
+            projectId: "educativo-87abb",
+            storageBucket: "educativo-87abb.firebasestorage.app",
+            messagingSenderId: "762088181200",
+            appId: "1:762088181200:web:f4b871149479649405bdd5",
+            measurementId: "G-692NDCWKVK"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         const CURSOS = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA", "SIMULACROS", "DOMICILIARIAS", "TEMARIO"];
         let ES_MAMA = false;
         let DATA_CONTROL = {};
+
+        // Escuchar cambios en tiempo real
+        db.ref('permisos').on('value', (snap) => {
+            DATA_CONTROL = snap.val() || {};
+            const tituloModal = document.getElementById('modal-title').innerText;
+            if(tituloModal) renderSemanas(tituloModal); // Actualiza si el modal está abierto
+        });
 
         async function initApp() {
             const p = document.getElementById('pass').value;
             if(p === "MAMA2026" || p === "ESTUDIANTE01") {
                 ES_MAMA = (p === "MAMA2026");
-                
-                // Intentar cargar permisos globales de GitHub
-                try {
-                    const r = await fetch('https://raw.githubusercontent.com/24135004/educativo/main/control.json?t=' + Date.now());
-                    if(r.ok) DATA_CONTROL = await r.json();
-                } catch(e) { console.error("Error cargando control.json"); }
-
                 document.getElementById('view-login').classList.add('hidden');
                 document.getElementById('view-app').classList.remove('hidden');
                 document.getElementById('role-badge').innerText = ES_MAMA ? "MODO ADMINISTRADOR" : "MODO ESTUDIANTE";
                 if(ES_MAMA) document.getElementById('role-badge').style.background = "#10b981";
-                
                 renderCursos();
-            } else {
-                alert("Código inválido");
-            }
+            } else { alert("Código inválido"); }
         }
 
         function renderCursos() {
@@ -281,41 +296,56 @@
 
         function openModal(nombreCurso) {
             document.getElementById('modal-title').innerText = nombreCurso;
-            const body = document.getElementById('modal-body');
-            body.innerHTML = "";
             document.getElementById('modal').classList.remove('hidden');
+            renderSemanas(nombreCurso);
+        }
+
+        function renderSemanas(nombreCurso) {
+            const body = document.getElementById('modal-body');
+            let html = "";
 
             for(let i=1; i<=40; i++) {
                 let n = i < 10 ? "0"+i : i;
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
 
-                // Solo para la semana 1 de Álgebra (links reales)
+                // Enlaces
                 let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
-                let linkT = (nombreCurso === "ALGEBRA" && i === 1) ? `${base}/DIAPOSITIVAS/ASM-TS001-AL.pdf` : "#";
-                let linkP = (nombreCurso === "ALGEBRA" && i === 1) ? `${base}/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf` : "#";
-                let linkS = (nombreCurso === "ALGEBRA" && i === 1) ? `${base}/RESOLUCIONES/2024-03-08%2014-06-36.pdf` : "#";
+                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`; // Ejemplo dinámico
+                let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
 
-                body.innerHTML += `
+                html += `
                     <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
                         <div>
                             <div class="week-name">
                                 SEMANA ${n} 
                                 ${desbloqueada ? '<span class="open-badge">ABIERTO</span>' : '<span class="lock-badge">BLOQUEADO</span>'}
                             </div>
-                            ${ES_MAMA ? `<p style="font-size:0.65rem; color:var(--text-dim); margin-top:5px;">Para activar usa: "${idSemana}": true en control.json</p>` : ''}
+                            ${ES_MAMA ? `<p style="font-size:0.65rem; color:var(--accent); margin-top:5px;">Control de acceso activo</p>` : ''}
                         </div>
                         <div class="action-btns">
                             <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
                             <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
-                            ${ES_MAMA ? `<a href="${linkS}" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>` : ''}
+                            ${ES_MAMA ? `
+                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
+                                    ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
+                                </button>` : ''}
                         </div>
                     </div>
                 `;
             }
+            body.innerHTML = html;
         }
 
-        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+        function toggleSemana(id) {
+            const estadoActual = DATA_CONTROL[id] || false;
+            db.ref('permisos/' + id).set(!estadoActual);
+        }
+
+        function closeModal() { 
+            document.getElementById('modal-title').innerText = "";
+            document.getElementById('modal').classList.add('hidden'); 
+        }
     </script>
 </body>
 </html>
