@@ -128,17 +128,12 @@
             overflow: hidden;
         }
 
-        .curso-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); opacity: 0; transition: 0.3s;
-        }
-
         .curso-card:hover {
             transform: translateY(-10px);
             background: rgba(255,255,255,0.05);
             border-color: var(--primary);
         }
 
-        .curso-card:hover::before { opacity: 1; }
         .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
 
         /* --- MODAL Y SEMANAS --- */
@@ -245,7 +240,6 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBP_HJJ1RYjZiyHkVfA-dAwde_pRzXtl-A",
             authDomain: "educativo-87abb.firebaseapp.com",
@@ -263,7 +257,6 @@
         let ES_MAMA = false;
         let DATA_CONTROL = {};
 
-        // Escuchar cambios en tiempo real
         db.ref('permisos').on('value', (snap) => {
             DATA_CONTROL = snap.val() || {};
             const tituloModal = document.getElementById('modal-title').innerText;
@@ -334,19 +327,20 @@
             body.innerHTML = html;
         }
 
-        // FUNCIÓN CORREGIDA Y ADAPTADA CON NOTIFICACIONES
+        // FUNCIÓN CON LOGICA DE NOTIFICACIÓN COMPLETA
         function toggleSemana(id) {
             const estadoActual = DATA_CONTROL[id] || false;
             const nuevoEstado = !estadoActual;
             
-            // 1. Actualizar el permiso
+            // 1. Actualizar permiso
             db.ref('permisos/' + id).set(nuevoEstado);
 
-            // 2. Enviar Notificación a Firebase
-            const partes = id.split('_S');
+            // 2. Extraer datos para la notificación
+            const partes = id.split('_S'); // Separa el nombre del curso de la semana
             const cursoNombre = partes[0];
             const numeroSemana = partes[1];
 
+            // 3. Enviar al nodo de notificaciones
             db.ref('notificaciones').set({
                 curso: cursoNombre,
                 semana: parseInt(numeroSemana),
