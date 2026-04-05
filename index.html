@@ -36,7 +36,6 @@
 
         .hidden { display: none !important; }
 
-        /* --- ESTILO DEL RECORDATORIO SOLO PARA MAMÁ --- */
         #mensaje-mama {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid var(--accent);
@@ -170,17 +169,7 @@
             overflow: hidden;
         }
 
-        .curso-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); opacity: 0; transition: 0.3s;
-        }
-
-        .curso-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.05);
-            border-color: var(--primary);
-        }
-
-        .curso-card:hover::before { opacity: 1; }
+        .curso-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.05); border-color: var(--primary); }
         .curso-card h3 { font-weight: 700; font-size: 1.1rem; }
 
         .modal {
@@ -200,7 +189,7 @@
         }
 
         .modal-header { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; }
+        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
 
         .week-item {
             background: rgba(255,255,255,0.02);
@@ -211,13 +200,10 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
         }
 
         .week-item.locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; border-style: dashed; }
-
         .week-name { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        
         .action-btns { display: flex; gap: 1rem; }
         
         .file-link {
@@ -226,17 +212,15 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background: rgba(255,255,255,0.05);
             color: var(--text-main);
             transition: 0.3s;
         }
 
         .file-link:hover { background: var(--primary); color: white; }
-        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); cursor: pointer; background: transparent;}
+        .btn-solucion { border: 1px solid var(--accent); color: var(--accent); }
         .btn-solucion:hover { background: var(--accent); color: white; }
+        .btn-control { background: var(--primary) !important; color: white !important; cursor: pointer; border: none; }
 
         .lock-badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
         .open-badge { background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 2rem; font-size: 0.65rem; font-weight: 800; }
@@ -318,26 +302,18 @@
 
         db.ref('notificaciones').on('value', (snap) => {
             const data = snap.val();
-            if(!data) return;
+            if(!data || ES_MAMA) return;
 
-            const banner = document.getElementById('notification-banner');
             const toastContainer = document.getElementById('toast-container');
-
-            if(ES_MAMA) {
-                banner.classList.remove('hidden');
-                banner.style.background = "#f59e0b";
-                banner.innerHTML = `⚠️ ATENCIÓN: El curso ${data.curso} (Semana ${data.semana}) requiere revisión.`;
-            } else {
-                if(data.tipo === "DESBLOQUEO") {
-                    toastContainer.innerHTML = `
-                        <div class="toast-notif">
-                            <span style="font-weight:800; color:var(--accent);">📘 ¡NUEVO CURSO DISPONIBLE!</span>
-                            <span style="font-size:0.9rem;">Tienes pendiente: <b>${data.curso} - Semana ${data.semana}</b></span>
-                            <button onclick="this.parentElement.remove()" style="background:var(--primary); border:none; color:white; padding:5px; border-radius:5px; cursor:pointer; font-size:0.7rem;">ENTENDIDO</button>
-                        </div>
-                    `;
-                    setTimeout(() => { if(toastContainer.firstChild) toastContainer.firstChild.remove(); }, 8000);
-                }
+            if(data.tipo === "DESBLOQUEO") {
+                toastContainer.innerHTML = `
+                    <div class="toast-notif">
+                        <span style="font-weight:800; color:var(--accent);">📘 ¡NUEVO CURSO DISPONIBLE!</span>
+                        <span style="font-size:0.9rem;">Tienes pendiente: <b>${data.curso} - Semana ${data.semana}</b></span>
+                        <button onclick="this.parentElement.remove()" style="background:var(--primary); border:none; color:white; padding:5px; border-radius:5px; cursor:pointer; font-size:0.7rem;">ENTENDIDO</button>
+                    </div>
+                `;
+                setTimeout(() => { if(toastContainer.firstChild) toastContainer.firstChild.remove(); }, 8000);
             }
         });
 
@@ -351,9 +327,8 @@
                 
                 if(ES_MAMA) {
                     document.getElementById('role-badge').style.background = "#10b981";
-                    document.getElementById('mensaje-mama').classList.remove('hidden'); // MOSTRAR EL RECORDATORIO
+                    document.getElementById('mensaje-mama').classList.remove('hidden');
                 }
-                
                 renderCursos();
             } else { alert("Código inválido"); }
         }
@@ -382,9 +357,7 @@
                 let idSemana = `${nombreCurso}_S${i}`;
                 let desbloqueada = DATA_CONTROL[idSemana] || false;
                 let base = `https://github.com/24135004/educativo/raw/main/${nombreCurso}%202024%201-40`;
-                let linkT = `${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf`;
-                let linkP = `${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf`;
-
+                
                 html += `
                     <div class="week-item ${!desbloqueada && !ES_MAMA ? 'locked' : ''}">
                         <div>
@@ -394,10 +367,11 @@
                             </div>
                         </div>
                         <div class="action-btns">
-                            <a href="${linkT}" target="_blank" class="file-link">TEORÍA</a>
-                            <a href="${linkP}" target="_blank" class="file-link">PRÁCTICA</a>
+                            <a href="${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf" target="_blank" class="file-link">TEORÍA</a>
+                            <a href="${base}/DIRIGIDAS/AL_ASM_Dir_Sem0${i}.pdf" target="_blank" class="file-link">PRÁCTICA</a>
                             ${ES_MAMA ? `
-                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-solucion">
+                                <a href="${base}/RESOLUCION/RES_Sem0${i}.pdf" target="_blank" class="file-link btn-solucion">SOLUCIONARIO</a>
+                                <button onclick="toggleSemana('${idSemana}')" class="file-link btn-control">
                                     ${desbloqueada ? 'BLOQUEAR' : 'DESBLOQUEAR'}
                                 </button>` : ''}
                         </div>
@@ -411,7 +385,6 @@
             const estadoActual = DATA_CONTROL[id] || false;
             const nuevoEstado = !estadoActual;
             db.ref('permisos/' + id).set(nuevoEstado);
-
             const partes = id.split('_S');
             db.ref('notificaciones').set({
                 curso: partes[0],
