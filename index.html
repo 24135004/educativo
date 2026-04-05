@@ -3,105 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet Álgebra - San Marcos</title>
+    <title>Intranet Educativa - Álgebra</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #2563eb; --green: #10b981; --bg: #f1f5f9; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
-        .container { max-width: 1100px; margin: auto; }
-        .hidden { display: none; }
-        .login-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 100px auto; max-width: 350px; text-align: center; }
-        input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .panel { background: white; padding: 15px; border-radius: 15px; height: 75vh; overflow-y: auto; border: 1px solid #e2e8f0; }
-        .panel h3 { position: sticky; top: 0; background: white; margin: 0; padding: 10px 0; border-bottom: 2px solid var(--bg); z-index: 5; font-size: 1.1rem; }
+        :root { --blue: #2563eb; --green: #10b981; --bg: #f1f5f9; --text: #1e293b; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text); }
+        .container { max-width: 1200px; margin: auto; }
+        .hidden { display: none !important; }
         
-        .btn-file {
+        /* Pantalla de Inicio */
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin: 100px auto; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 20px 0; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
+        .btn-login { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 600; cursor: pointer; }
+
+        /* Dashboard */
+        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .panel { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 75vh; overflow-y: auto; }
+        .panel h3 { position: sticky; top: 0; background: white; padding: 10px 0; margin-top: 0; border-bottom: 2px solid var(--bg); z-index: 10; color: var(--blue); }
+
+        /* Botones de Archivo */
+        .archivo-link {
             display: flex; align-items: center; justify-content: space-between;
-            background: #fff; border: 1px solid #edf2f7; padding: 12px;
-            margin: 8px 0; border-radius: 10px; text-decoration: none; color: #4a5568;
-            font-size: 0.85rem; transition: 0.2s;
+            background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px;
+            margin-bottom: 12px; border-radius: 12px; text-decoration: none; color: var(--text);
+            transition: all 0.2s ease;
         }
-        .btn-file:hover { background: #f8fafc; border-color: var(--blue); transform: scale(1.02); color: var(--blue); }
-        .btn-primary { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: 600; }
-        .logout { color: #ef4444; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-        .sem-tag { background: #ebf8ff; color: #3182ce; padding: 2px 8px; border-radius: 5px; font-weight: bold; margin-right: 10px; }
+        .archivo-link:hover { border-color: var(--blue); background: #eff6ff; transform: translateY(-2px); }
+        .sem-circle { background: var(--blue); color: white; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.8rem; margin-right: 15px; flex-shrink: 0; }
+        .info-txt { flex-grow: 1; text-align: left; }
+        .info-txt span { display: block; font-size: 0.75rem; color: #64748b; }
+        .arrow { color: #cbd5e1; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="section-login" class="login-box">
-        <h2 style="margin-top:0">Acceso Álgebra</h2>
-        <input type="password" id="pass" placeholder="Código de acceso">
-        <button class="btn-primary" onclick="validar()">Ingresar</button>
+    <div id="login-screen" class="login-card">
+        <h2 style="margin:0">Bienvenido</h2>
+        <p style="color:#64748b">Ingresa tu clave de acceso</p>
+        <input type="password" id="access-code" placeholder="Contraseña">
+        <button class="btn-login" onclick="entrar()">Entrar al Sistema</button>
     </div>
 
-    <div id="section-panel" class="hidden">
+    <div id="main-dashboard" class="hidden">
         <div class="header">
-            <h3 id="user-title" style="margin:0; color: #2d3748;"></h3>
-            <span class="logout" onclick="location.reload()">Cerrar Sesión</span>
+            <h2 id="user-name" style="margin:0"></h2>
+            <button onclick="location.reload()" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:600">Cerrar Sesión</button>
         </div>
 
         <div class="grid">
             <div class="panel">
                 <h3>📖 Diapositivas (Teoría)</h3>
-                <div id="list-diapo"></div>
+                <div id="lista-diapos">
+                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/DIAPOSITIVAS/ASM-TS001-AL.pdf" target="_blank" class="archivo-link">
+                        <div class="sem-circle">01</div>
+                        <div class="info-txt"><b>Ecuaciones Lineales</b><span>ASM-TS001-AL.pdf</span></div>
+                        <div class="arrow">→</div>
+                    </a>
+                    </div>
             </div>
+
             <div class="panel">
-                <h3>📝 Prácticas (Imprimir)</h3>
-                <div id="list-dir"></div>
+                <h3>📝 Prácticas (Para Imprimir)</h3>
+                <div id="lista-dirigidas">
+                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf" target="_blank" class="archivo-link">
+                        <div class="sem-circle">01</div>
+                        <div class="info-txt"><b>Práctica Dirigida S01</b><span>AL_ASM_Dir_Sem01.pdf</span></div>
+                        <div class="arrow">→</div>
+                    </a>
+                </div>
             </div>
+
             <div id="panel-mama" class="panel hidden">
-                <h3>✅ Resoluciones</h3>
-                <div id="list-res"></div>
+                <h3>✅ Resoluciones (Corrección)</h3>
+                <div id="lista-res">
+                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/RESOLUCIONES/2024-03-08%2014-06-36.pdf" target="_blank" class="archivo-link">
+                        <div class="sem-circle">01</div>
+                        <div class="info-txt"><b>Solucionario S01</b><span>2024-03-08 14-06-36.pdf</span></div>
+                        <div class="arrow">→</div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function validar() {
-        const p = document.getElementById('pass').value;
-        if(p === "MAMA2026" || p === "ESTUDIANTE01") {
-            document.getElementById('section-login').classList.add('hidden');
-            document.getElementById('section-panel').classList.remove('hidden');
-            document.getElementById('user-title').innerText = p === "MAMA2026" ? "Panel Administrador" : "Material de Estudio";
-            generarContenido(p === "MAMA2026");
-        } else { alert("Código incorrecto"); }
-    }
+    function entrar() {
+        const code = document.getElementById('access-code').value;
+        const codMama = "MAMA2026";
+        const codHno = "ESTUDIANTE01";
 
-    function generarContenido(esMama) {
-        const base = "https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40";
-        
-        for (let i = 1; i <= 40; i++) {
-            let n = i < 10 ? "0" + i : i; // Formato 01, 02...
-            
-            // 1. DIAPOSITIVAS: ASM-TS00[i]-AL.pdf
-            document.getElementById('list-diapo').innerHTML += `
-                <a href="${base}/DIAPOSITIVAS/ASM-TS00${i}-AL.pdf" target="_blank" class="btn-file">
-                    <span><span class="sem-tag">S${n}</span> Diapositiva Teórica</span> <span>→</span>
-                </a>`;
-
-            // 2. PRÁCTICAS: AL_ASM_Dir_Sem[n].pdf
-            document.getElementById('list-dir').innerHTML += `
-                <a href="${base}/DIRIGIDAS/AL_ASM_Dir_Sem${n}.pdf" target="_blank" class="btn-file">
-                    <span><span class="sem-tag">S${n}</span> Práctica Dirigida</span> <span>→</span>
-                </a>`;
-
-            // 3. RESOLUCIONES (SÓLO MAMÁ)
-            if(esMama) {
-                document.getElementById('panel-mama').classList.remove('hidden');
-                // Para la semana 1 usamos el nombre largo que mandaste, para el resto un estándar
-                let resName = (i === 1) ? "2024-03-08%2014-06-36.pdf" : `Res_Sem${n}.pdf`;
-                document.getElementById('list-res').innerHTML += `
-                    <a href="${base}/RESOLUCIONES/${resName}" target="_blank" class="btn-file">
-                        <span><span class="sem-tag">S${n}</span> Solucionario</span> <span>→</span>
-                    </a>`;
-            }
+        if (code === codMama) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            document.getElementById('panel-mama').classList.remove('hidden');
+            document.getElementById('user-name').innerText = "Panel de Control - Mamá";
+        } else if (code === codHno) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            document.getElementById('user-name').innerText = "Material de Álgebra";
+        } else {
+            alert("Código incorrecto");
         }
     }
 </script>
+
 </body>
 </html>
