@@ -152,7 +152,8 @@
                 document.getElementById('view-app').classList.remove('hidden');
                 if(ES_MAMA) {
                     document.getElementById('role-badge').innerText = "ADMINISTRADOR";
-                    document.getElementById('role-badge').style.background = var(--accent);
+                    // ¡AQUÍ ESTABA EL ERROR! Faltaban las comillas. Ya está corregido a #10b981
+                    document.getElementById('role-badge').style.background = "#10b981";
                     document.getElementById('panel-admin-info').classList.remove('hidden');
                 }
                 renderCursos();
