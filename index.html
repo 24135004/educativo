@@ -3,111 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet Educativa - Álgebra</title>
+    <title>Intranet Educativa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #2563eb; --green: #10b981; --bg: #f1f5f9; --text: #1e293b; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text); }
-        .container { max-width: 1200px; margin: auto; }
+        :root { --blue: #2563eb; --bg: #f1f5f9; --text: #1e293b; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: var(--text); }
+        .container { max-width: 1100px; margin: auto; text-align: center; }
         .hidden { display: none !important; }
         
-        /* Pantalla de Inicio */
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin: 100px auto; max-width: 400px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 20px 0; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
-        .btn-login { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 600; cursor: pointer; }
+        /* Login */
+        .login-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin: 80px auto; max-width: 350px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
+        .btn-blue { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 600; cursor: pointer; }
 
-        /* Dashboard */
-        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
-        .panel { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 75vh; overflow-y: auto; }
-        .panel h3 { position: sticky; top: 0; background: white; padding: 10px 0; margin-top: 0; border-bottom: 2px solid var(--bg); z-index: 10; color: var(--blue); }
+        /* Grid de Cursos */
+        .header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .grid-cursos { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .card-curso { background: white; padding: 25px 10px; border-radius: 15px; cursor: pointer; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; border: 2px solid transparent; font-size: 0.85rem; }
+        .card-curso:hover { border-color: var(--blue); transform: translateY(-3px); color: var(--blue); }
 
-        /* Botones de Archivo */
-        .archivo-link {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px;
-            margin-bottom: 12px; border-radius: 12px; text-decoration: none; color: var(--text);
-            transition: all 0.2s ease;
-        }
-        .archivo-link:hover { border-color: var(--blue); background: #eff6ff; transform: translateY(-2px); }
-        .sem-circle { background: var(--blue); color: white; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.8rem; margin-right: 15px; flex-shrink: 0; }
-        .info-txt { flex-grow: 1; text-align: left; }
-        .info-txt span { display: block; font-size: 0.75rem; color: #64748b; }
-        .arrow { color: #cbd5e1; font-weight: bold; }
+        /* Modal Materiales */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 10px; }
+        .modal-content { background: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; text-align: left; }
+        .semana-bloque { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .semana-titulo { font-weight: 600; color: var(--blue); margin-bottom: 10px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-file { flex: 1; min-width: 140px; background: white; border: 1px solid #cbd5e1; padding: 8px; border-radius: 8px; text-decoration: none; color: #334155; font-size: 0.8rem; text-align: center; transition: 0.2s; }
+        .btn-file:hover { background: var(--blue); color: white; border-color: var(--blue); }
+        .btn-res { border-color: #10b981; color: #10b981; }
+        .btn-res:hover { background: #10b981; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="login-screen" class="login-card">
-        <h2 style="margin:0">Bienvenido</h2>
-        <p style="color:#64748b">Ingresa tu clave de acceso</p>
-        <input type="password" id="access-code" placeholder="Contraseña">
-        <button class="btn-login" onclick="entrar()">Entrar al Sistema</button>
+    <div id="section-login" class="login-card">
+        <h2 style="margin:0; color: var(--blue);">Intranet</h2>
+        <p style="font-size:0.9rem; color:#64748b;">Ingresa tu código de acceso</p>
+        <input type="password" id="pass-input" placeholder="Contraseña">
+        <button class="btn-blue" onclick="validar()">Entrar</button>
     </div>
 
-    <div id="main-dashboard" class="hidden">
+    <div id="section-intranet" class="hidden">
         <div class="header">
-            <h2 id="user-name" style="margin:0"></h2>
-            <button onclick="location.reload()" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:600">Cerrar Sesión</button>
+            <h2 id="user-txt" style="margin:0; font-size: 1.2rem;"></h2>
+            <button onclick="location.reload()" style="border:none; background:none; color:#ef4444; cursor:pointer; font-weight:600;">Salir</button>
         </div>
+        <div class="grid-cursos" id="lista-cursos"></div>
+    </div>
+</div>
 
-        <div class="grid">
-            <div class="panel">
-                <h3>📖 Diapositivas (Teoría)</h3>
-                <div id="lista-diapos">
-                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/DIAPOSITIVAS/ASM-TS001-AL.pdf" target="_blank" class="archivo-link">
-                        <div class="sem-circle">01</div>
-                        <div class="info-txt"><b>Ecuaciones Lineales</b><span>ASM-TS001-AL.pdf</span></div>
-                        <div class="arrow">→</div>
-                    </a>
-                    </div>
-            </div>
-
-            <div class="panel">
-                <h3>📝 Prácticas (Para Imprimir)</h3>
-                <div id="lista-dirigidas">
-                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf" target="_blank" class="archivo-link">
-                        <div class="sem-circle">01</div>
-                        <div class="info-txt"><b>Práctica Dirigida S01</b><span>AL_ASM_Dir_Sem01.pdf</span></div>
-                        <div class="arrow">→</div>
-                    </a>
-                </div>
-            </div>
-
-            <div id="panel-mama" class="panel hidden">
-                <h3>✅ Resoluciones (Corrección)</h3>
-                <div id="lista-res">
-                    <a href="https://raw.githubusercontent.com/24135004/educativo/main/ALGEBRA%202024%201-40/RESOLUCIONES/2024-03-08%2014-06-36.pdf" target="_blank" class="archivo-link">
-                        <div class="sem-circle">01</div>
-                        <div class="info-txt"><b>Solucionario S01</b><span>2024-03-08 14-06-36.pdf</span></div>
-                        <div class="arrow">→</div>
-                    </a>
-                </div>
-            </div>
+<div id="modal-material" class="modal hidden">
+    <div class="modal-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h2 id="modal-titulo" style="margin:0; color:var(--blue);"></h2>
+            <button onclick="cerrarModal()" style="font-size:2rem; cursor:pointer; border:none; background:none; line-height:1;">&times;</button>
         </div>
+        <div id="contenedor-semanas"></div>
     </div>
 </div>
 
 <script>
-    function entrar() {
-        const code = document.getElementById('access-code').value;
-        const codMama = "MAMA2026";
-        const codHno = "ESTUDIANTE01";
+    const cursos = ["ALGEBRA", "ARITMETICA", "BIOLOGIA", "ECONOMIA", "FILOSOFIA", "FISICA", "GEOGRAFIA", "GEOMETRIA", "HISTORIA", "LENGUAJE", "LITERATURA", "PSICOLOGIA", "QUIMICA", "RAZ. MATEMATICO", "RAZ. VERBAL", "TRIGONOMETRIA", "SIMULACROS", "DOMICILIARIAS", "TEMARIO"];
+    let esMama = false;
 
-        if (code === codMama) {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('main-dashboard').classList.remove('hidden');
-            document.getElementById('panel-mama').classList.remove('hidden');
-            document.getElementById('user-name').innerText = "Panel de Control - Mamá";
-        } else if (code === codHno) {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('main-dashboard').classList.remove('hidden');
-            document.getElementById('user-name').innerText = "Material de Álgebra";
-        } else {
-            alert("Código incorrecto");
+    function validar() {
+        const p = document.getElementById('pass-input').value;
+        if(p === "MAMA2026" || p === "ESTUDIANTE01") {
+            esMama = (p === "MAMA2026");
+            document.getElementById('section-login').classList.add('hidden');
+            document.getElementById('section-intranet').classList.remove('hidden');
+            document.getElementById('user-txt').innerText = esMama ? "Panel Administrador" : "Mis Cursos";
+            renderCursos();
+        } else { alert("Código incorrecto"); }
+    }
+
+    function renderCursos() {
+        const box = document.getElementById('lista-cursos');
+        box.innerHTML = "";
+        cursos.forEach(c => {
+            box.innerHTML += `<div class="card-curso" onclick="abrirCurso('${c}')">${c}</div>`;
+        });
+    }
+
+    function abrirCurso(nombre) {
+        document.getElementById('modal-titulo').innerText = "Curso: " + nombre;
+        const container = document.getElementById('contenedor-semanas');
+        container.innerHTML = "";
+        document.getElementById('modal-material').classList.remove('hidden');
+
+        for(let i=1; i<=40; i++) {
+            let n = i < 10 ? "0"+i : i;
+            let baseUrl = `https://github.com/24135004/educativo/raw/main/${nombre}%202024%201-40`;
+
+            // CONFIGURACIÓN ESPECIAL SEMANA 1 ALGEBRA (Tus archivos reales)
+            let dLink = "#", pLink = "#", rLink = "#";
+            let dName = "Archivo", pName = "Archivo", rName = "Archivo";
+
+            if(nombre === "ALGEBRA" && i === 1) {
+                dLink = `${baseUrl}/DIAPOSITIVAS/ASM-TS001-AL.pdf`;
+                dName = "ASM-TS001-AL.pdf";
+                pLink = `${baseUrl}/DIRIGIDAS/AL_ASM_Dir_Sem01.pdf`;
+                pName = "AL_ASM_Dir_Sem01.pdf";
+                rLink = `${baseUrl}/RESOLUCIONES/2024-03-08%2014-06-36.pdf`;
+                rName = "2024-03-08 14-06-36.pdf";
+            }
+
+            let html = `
+                <div class="semana-bloque">
+                    <span class="semana-titulo">SEMANA ${n}</span>
+                    <div class="btn-group">
+                        <a href="${dLink}" target="_blank" class="btn-file">📖 Diapo: ${dName}</a>
+                        <a href="${pLink}" target="_blank" class="btn-file">📝 Práctica: ${pName}</a>
+                        ${esMama ? `<a href="${rLink}" target="_blank" class="btn-file btn-res">✅ Res: ${rName}</a>` : ''}
+                    </div>
+                </div>`;
+            container.innerHTML += html;
         }
     }
+
+    function cerrarModal() { document.getElementById('modal-material').classList.add('hidden'); }
 </script>
 
 </body>
